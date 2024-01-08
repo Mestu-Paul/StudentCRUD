@@ -21,7 +21,12 @@ namespace _4._Application.Controllers
         public async Task<List<Students>> GetStudent()
         {
             return await _studentLogic.GetAllStudentsAsync();
+        }
 
+        [HttpGet]
+        public async Task<long> GetNumberOfData()
+        {
+            return await _studentLogic.GetNumberOfDataAsync();
         }
 
         [HttpGet]

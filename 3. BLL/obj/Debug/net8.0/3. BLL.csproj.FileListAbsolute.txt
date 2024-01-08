@@ -15,3 +15,21 @@ D:\orbitax\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.dll
 D:\orbitax\StudentCRUD\3. BLL\obj\Debug\net8.0\refint\3. BLL.dll
 D:\orbitax\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.pdb
 D:\orbitax\StudentCRUD\3. BLL\obj\Debug\net8.0\ref\3. BLL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\bin\Debug\net8.0\3. BLL.deps.json
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\bin\Debug\net8.0\3. BLL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\bin\Debug\net8.0\3. BLL.pdb
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\bin\Debug\net8.0\1.BOL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\bin\Debug\net8.0\2. DAL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\bin\Debug\net8.0\2. DAL.pdb
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\bin\Debug\net8.0\1.BOL.pdb
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.csproj.AssemblyReference.cache
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.AssemblyInfoInputs.cache
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.AssemblyInfo.cs
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.csproj.CoreCompileInputs.cache
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.sourcelink.json
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.csproj.CopyComplete
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\obj\Debug\net8.0\refint\3. BLL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.pdb
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\3. BLL\obj\Debug\net8.0\ref\3. BLL.dll

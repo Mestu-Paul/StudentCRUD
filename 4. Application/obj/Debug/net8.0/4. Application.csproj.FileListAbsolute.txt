@@ -53,3 +53,60 @@ D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\Microsoft.AspNetCore.Json
 D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\Newtonsoft.Json.dll
 D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\appsettings.json
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\libman.json
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\4. Application.exe
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\4. Application.deps.json
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\4. Application.runtimeconfig.json
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\4. Application.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\4. Application.pdb
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\AWSSDK.Core.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\AWSSDK.SecurityToken.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\DnsClient.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\MongoDB.Bson.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\MongoDB.Driver.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\MongoDB.Driver.Core.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\MongoDB.Libmongocrypt.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\SharpCompress.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\Snappier.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\ZstdSharp.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\runtimes\linux\native\libmongocrypt.so
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\runtimes\osx\native\libmongocrypt.dylib
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\runtimes\win\native\mongocrypt.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\1.BOL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\2. DAL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\3. BLL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\3. BLL.pdb
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\1.BOL.pdb
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\bin\Debug\net8.0\2. DAL.pdb
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.csproj.AssemblyReference.cache
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.AssemblyInfoInputs.cache
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.AssemblyInfo.cs
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.csproj.CoreCompileInputs.cache
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.sourcelink.json
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\staticwebassets\msbuild.4. Application.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\staticwebassets\msbuild.build.4. Application.props
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.4. Application.props
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.4. Application.props
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\scopedcss\bundle\4. Application.styles.css
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.csproj.CopyComplete
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\refint\4. Application.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.pdb
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.genruntimeconfig.cache
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\4. Application\obj\Debug\net8.0\ref\4. Application.dll

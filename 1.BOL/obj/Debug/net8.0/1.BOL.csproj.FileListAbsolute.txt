@@ -10,3 +10,16 @@ D:\orbitax\StudentCRUD\1.BOL\obj\Debug\net8.0\refint\1.BOL.dll
 D:\orbitax\StudentCRUD\1.BOL\obj\Debug\net8.0\1.BOL.pdb
 D:\orbitax\StudentCRUD\1.BOL\obj\Debug\net8.0\ref\1.BOL.dll
 D:\orbitax\StudentCRUD\1.BOL\obj\Debug\net8.0\1.BOL.csproj.AssemblyReference.cache
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\1.BOL\bin\Debug\net8.0\1.BOL.deps.json
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\1.BOL\bin\Debug\net8.0\1.BOL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\1.BOL\bin\Debug\net8.0\1.BOL.pdb
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\1.BOL\obj\Debug\net8.0\1.BOL.csproj.AssemblyReference.cache
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\1.BOL\obj\Debug\net8.0\1.BOL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\1.BOL\obj\Debug\net8.0\1.BOL.AssemblyInfoInputs.cache
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\1.BOL\obj\Debug\net8.0\1.BOL.AssemblyInfo.cs
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\1.BOL\obj\Debug\net8.0\1.BOL.csproj.CoreCompileInputs.cache
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\1.BOL\obj\Debug\net8.0\1.BOL.sourcelink.json
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\1.BOL\obj\Debug\net8.0\1.BOL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\1.BOL\obj\Debug\net8.0\refint\1.BOL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\1.BOL\obj\Debug\net8.0\1.BOL.pdb
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\1.BOL\obj\Debug\net8.0\ref\1.BOL.dll

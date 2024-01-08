@@ -34,6 +34,8 @@ namespace _2._DAL.DataServices
             return await _students.Find(new BsonDocument()).ToListAsync();
         }
 
+
+
         public async Task<bool> DeleteAsync(string id)
         {
             var filter = Builders<Students>.Filter.Eq("Id", id);
@@ -80,6 +82,10 @@ namespace _2._DAL.DataServices
                                            .Skip(skipCount)
                                            .Limit(pageSize)
                                            .ToListAsync();
+        }
+        public async Task<long> NumberOfDataAsync()
+        {
+            return await _students.EstimatedDocumentCountAsync();
         }
     }
 }

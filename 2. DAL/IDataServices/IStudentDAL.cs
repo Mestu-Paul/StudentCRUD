@@ -16,5 +16,6 @@ namespace _2._DAL.IDataServices
         Task<bool> UpdateAsync(string id, Students student);
         Task<bool> PatchAsync(string id, JsonPatchDocument<Students> patchDocument);
         Task<List<Students>> GetStudentsPageAsync(int pageNumber, int pageSize);
+        Task<long> NumberOfDataAsync();
     }
 }

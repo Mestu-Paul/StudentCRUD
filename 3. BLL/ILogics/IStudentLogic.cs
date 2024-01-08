@@ -16,5 +16,6 @@ namespace _3._BLL.ILogics
         Task<bool> UpdateStudentAsync(string id, Students student);
         Task<bool> PatchStudentAsync(string id, JsonPatchDocument<Students> patchDocument);
         Task<List<Students>> GetStudentsPageAsync(int pageNumber, int pageSize);
+        Task<long> GetNumberOfDataAsync();
     }
 }

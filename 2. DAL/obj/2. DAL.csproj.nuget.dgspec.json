@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\orbitax\\project\\StudentCRUD\\2. DAL\\2. DAL.csproj": {}
+    "C:\\Users\\paul\\Documents\\dotnetCrud\\StudentCRUD\\2. DAL\\2. DAL.csproj": {}
   },
   "projects": {
-    "D:\\orbitax\\project\\StudentCRUD\\1.BOL\\1.BOL.csproj": {
+    "C:\\Users\\paul\\Documents\\dotnetCrud\\StudentCRUD\\1.BOL\\1.BOL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\orbitax\\project\\StudentCRUD\\1.BOL\\1.BOL.csproj",
+        "projectUniqueName": "C:\\Users\\paul\\Documents\\dotnetCrud\\StudentCRUD\\1.BOL\\1.BOL.csproj",
         "projectName": "1.BOL",
-        "projectPath": "D:\\orbitax\\project\\StudentCRUD\\1.BOL\\1.BOL.csproj",
-        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "D:\\orbitax\\project\\StudentCRUD\\1.BOL\\obj\\",
+        "projectPath": "C:\\Users\\paul\\Documents\\dotnetCrud\\StudentCRUD\\1.BOL\\1.BOL.csproj",
+        "packagesPath": "C:\\Users\\paul\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\paul\\Documents\\dotnetCrud\\StudentCRUD\\1.BOL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\paul\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -74,20 +74,20 @@
         }
       }
     },
-    "D:\\orbitax\\project\\StudentCRUD\\2. DAL\\2. DAL.csproj": {
+    "C:\\Users\\paul\\Documents\\dotnetCrud\\StudentCRUD\\2. DAL\\2. DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\orbitax\\project\\StudentCRUD\\2. DAL\\2. DAL.csproj",
+        "projectUniqueName": "C:\\Users\\paul\\Documents\\dotnetCrud\\StudentCRUD\\2. DAL\\2. DAL.csproj",
         "projectName": "2. DAL",
-        "projectPath": "D:\\orbitax\\project\\StudentCRUD\\2. DAL\\2. DAL.csproj",
-        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "D:\\orbitax\\project\\StudentCRUD\\2. DAL\\obj\\",
+        "projectPath": "C:\\Users\\paul\\Documents\\dotnetCrud\\StudentCRUD\\2. DAL\\2. DAL.csproj",
+        "packagesPath": "C:\\Users\\paul\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\paul\\Documents\\dotnetCrud\\StudentCRUD\\2. DAL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\paul\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -103,8 +103,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\orbitax\\project\\StudentCRUD\\1.BOL\\1.BOL.csproj": {
-                "projectPath": "D:\\orbitax\\project\\StudentCRUD\\1.BOL\\1.BOL.csproj"
+              "C:\\Users\\paul\\Documents\\dotnetCrud\\StudentCRUD\\1.BOL\\1.BOL.csproj": {
+                "projectPath": "C:\\Users\\paul\\Documents\\dotnetCrud\\StudentCRUD\\1.BOL\\1.BOL.csproj"
               }
             }
           }

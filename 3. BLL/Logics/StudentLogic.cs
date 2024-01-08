@@ -51,5 +51,10 @@ namespace _3._BLL.Logics
         {
             return await _studentDAL.GetStudentsPageAsync(pageNumber, pageSize);
         }
+
+        public async Task<long> GetNumberOfDataAsync()
+        {
+            return await _studentDAL.NumberOfDataAsync();
+        }
     }
 }

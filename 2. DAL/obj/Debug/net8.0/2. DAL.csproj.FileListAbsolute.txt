@@ -13,3 +13,19 @@ D:\orbitax\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.dll
 D:\orbitax\StudentCRUD\2. DAL\obj\Debug\net8.0\refint\2. DAL.dll
 D:\orbitax\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.pdb
 D:\orbitax\StudentCRUD\2. DAL\obj\Debug\net8.0\ref\2. DAL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\2. DAL\bin\Debug\net8.0\2. DAL.deps.json
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\2. DAL\bin\Debug\net8.0\2. DAL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\2. DAL\bin\Debug\net8.0\2. DAL.pdb
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\2. DAL\bin\Debug\net8.0\1.BOL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\2. DAL\bin\Debug\net8.0\1.BOL.pdb
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.csproj.AssemblyReference.cache
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.AssemblyInfoInputs.cache
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.AssemblyInfo.cs
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.csproj.CoreCompileInputs.cache
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.sourcelink.json
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.csproj.CopyComplete
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\2. DAL\obj\Debug\net8.0\refint\2. DAL.dll
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.pdb
+C:\Users\paul\Documents\dotnetCrud\StudentCRUD\2. DAL\obj\Debug\net8.0\ref\2. DAL.dll
