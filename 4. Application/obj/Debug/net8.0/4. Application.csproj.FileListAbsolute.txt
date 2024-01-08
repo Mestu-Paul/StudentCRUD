@@ -1,0 +1,55 @@
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\appsettings.Development.json
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\appsettings.json
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\4. Application.exe
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\4. Application.deps.json
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\4. Application.runtimeconfig.json
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\4. Application.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\4. Application.pdb
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\Microsoft.OpenApi.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\1.BOL.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\2. DAL.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\3. BLL.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\3. BLL.pdb
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\1.BOL.pdb
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\2. DAL.pdb
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.csproj.AssemblyReference.cache
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.AssemblyInfoInputs.cache
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.AssemblyInfo.cs
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.csproj.CoreCompileInputs.cache
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.MvcApplicationPartsAssemblyInfo.cs
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.MvcApplicationPartsAssemblyInfo.cache
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\staticwebassets.build.json
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\staticwebassets.development.json
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\staticwebassets\msbuild.4. Application.Microsoft.AspNetCore.StaticWebAssets.props
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\staticwebassets\msbuild.build.4. Application.props
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.4. Application.props
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.4. Application.props
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\staticwebassets.pack.json
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\scopedcss\bundle\4. Application.styles.css
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.csproj.CopyComplete
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.dll
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\refint\4. Application.dll
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.pdb
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\4. Application.genruntimeconfig.cache
+D:\orbitax\StudentCRUD\4. Application\obj\Debug\net8.0\ref\4. Application.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\AWSSDK.Core.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\AWSSDK.SecurityToken.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\DnsClient.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\MongoDB.Bson.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\MongoDB.Driver.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\MongoDB.Driver.Core.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\MongoDB.Libmongocrypt.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\SharpCompress.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\Snappier.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\ZstdSharp.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\runtimes\linux\native\libmongocrypt.so
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\runtimes\osx\native\libmongocrypt.dylib
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\runtimes\win\native\mongocrypt.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\orbitax\StudentCRUD\4. Application\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll

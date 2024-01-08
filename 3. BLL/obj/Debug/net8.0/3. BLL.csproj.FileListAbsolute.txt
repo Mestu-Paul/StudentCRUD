@@ -1,0 +1,17 @@
+D:\orbitax\StudentCRUD\3. BLL\bin\Debug\net8.0\3. BLL.deps.json
+D:\orbitax\StudentCRUD\3. BLL\bin\Debug\net8.0\3. BLL.dll
+D:\orbitax\StudentCRUD\3. BLL\bin\Debug\net8.0\3. BLL.pdb
+D:\orbitax\StudentCRUD\3. BLL\bin\Debug\net8.0\1.BOL.dll
+D:\orbitax\StudentCRUD\3. BLL\bin\Debug\net8.0\2. DAL.dll
+D:\orbitax\StudentCRUD\3. BLL\bin\Debug\net8.0\2. DAL.pdb
+D:\orbitax\StudentCRUD\3. BLL\bin\Debug\net8.0\1.BOL.pdb
+D:\orbitax\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.csproj.AssemblyReference.cache
+D:\orbitax\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.GeneratedMSBuildEditorConfig.editorconfig
+D:\orbitax\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.AssemblyInfoInputs.cache
+D:\orbitax\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.AssemblyInfo.cs
+D:\orbitax\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.csproj.CoreCompileInputs.cache
+D:\orbitax\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.csproj.CopyComplete
+D:\orbitax\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.dll
+D:\orbitax\StudentCRUD\3. BLL\obj\Debug\net8.0\refint\3. BLL.dll
+D:\orbitax\StudentCRUD\3. BLL\obj\Debug\net8.0\3. BLL.pdb
+D:\orbitax\StudentCRUD\3. BLL\obj\Debug\net8.0\ref\3. BLL.dll

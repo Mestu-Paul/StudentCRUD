@@ -1,0 +1,15 @@
+D:\orbitax\StudentCRUD\2. DAL\bin\Debug\net8.0\2. DAL.deps.json
+D:\orbitax\StudentCRUD\2. DAL\bin\Debug\net8.0\2. DAL.dll
+D:\orbitax\StudentCRUD\2. DAL\bin\Debug\net8.0\2. DAL.pdb
+D:\orbitax\StudentCRUD\2. DAL\bin\Debug\net8.0\1.BOL.dll
+D:\orbitax\StudentCRUD\2. DAL\bin\Debug\net8.0\1.BOL.pdb
+D:\orbitax\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.csproj.AssemblyReference.cache
+D:\orbitax\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.GeneratedMSBuildEditorConfig.editorconfig
+D:\orbitax\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.AssemblyInfoInputs.cache
+D:\orbitax\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.AssemblyInfo.cs
+D:\orbitax\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.csproj.CoreCompileInputs.cache
+D:\orbitax\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.csproj.CopyComplete
+D:\orbitax\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.dll
+D:\orbitax\StudentCRUD\2. DAL\obj\Debug\net8.0\refint\2. DAL.dll
+D:\orbitax\StudentCRUD\2. DAL\obj\Debug\net8.0\2. DAL.pdb
+D:\orbitax\StudentCRUD\2. DAL\obj\Debug\net8.0\ref\2. DAL.dll
