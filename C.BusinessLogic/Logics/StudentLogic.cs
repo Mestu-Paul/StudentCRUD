@@ -2,7 +2,6 @@
 using B.DatabaseAccess.IDataAccess;
 using C.BusinessLogic.ILoigcs;
 using Microsoft.AspNetCore.JsonPatch;
-using System.Xml.XPath;
 
 namespace C.BusinessLogic.Logics
 {

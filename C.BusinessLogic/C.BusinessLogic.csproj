@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\B.DatabaseAccess\B.DatabaseAccess.csproj" />
+    <ProjectReference Include="..\B1.RedisCache\B1.RedisCache.csproj" />
   </ItemGroup>
 
 </Project>

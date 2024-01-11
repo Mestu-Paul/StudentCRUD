@@ -2,6 +2,7 @@ using A.Contracts.DBSettings;
 using System.Runtime;
 using B.DatabaseAccess.DataAccess;
 using B.DatabaseAccess.IDataAccess;
+using B1.RedisCache;
 using C.BusinessLogic.ILoigcs;
 using C.BusinessLogic.Logics;
 
@@ -15,6 +16,7 @@ builder.Services.Configure<MongoDBSetting>(builder.Configuration.GetSection("Mon
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddSingleton<IStudentLogic, StudentLogic>();
 builder.Services.AddSingleton<IStudentDataAccess, StudentDataAccess>();
+builder.Services.AddSingleton<ICache, Cache>();
 builder.Services.AddCors();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
