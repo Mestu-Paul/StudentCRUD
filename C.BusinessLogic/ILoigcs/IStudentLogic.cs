@@ -1,5 +1,4 @@
-﻿using A.Contracts.Contracts;
-using A.Contracts.Models;
+﻿using A.Contracts.Models;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace C.BusinessLogic.ILoigcs
@@ -7,11 +6,11 @@ namespace C.BusinessLogic.ILoigcs
     public interface IStudentLogic
     {
         Task CreateNewStudentAsync(Student student);
-        Task<StudentResponse> GetAllStudentsAsync();
-        Task<StudentResponse> DeleteStudentAsync(string id);
-        Task<StudentResponse> UpdateStudentAsync(string id, Student student);
-        Task<StudentResponse> UpdateStudentSingleAttributeAsync(string id, string fieldName, string fieldValue);
-        Task<StudentResponse> GetStudentsPagedAsync(int pageNumber, int pageSize);
+        Task<List<Student>> GetAllStudentsAsync();
+        Task<List<Student>> GetStudentsPagedAsync(int pageNumber, int pageSize);
         Task<long> GetTotalNumberOfStudentsAsync();
+        Task<bool> DeleteStudentAsync(string id);
+        Task<bool> UpdateStudentAsync(string id, Student student);
+        Task<bool> UpdateStudentSingleAttributeAsync(string id, JsonPatchDocument<Student> patchDocument);
     }
 }

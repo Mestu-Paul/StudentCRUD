@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 using System.Xml.XPath;
 
 namespace B.DatabaseAccess.DataAccess
@@ -67,7 +68,7 @@ namespace B.DatabaseAccess.DataAccess
             return updateResult.ModifiedCount > 0;
         }
 
-        public async Task<bool> UpdateStudentSingleAttributeAsync(string id, string fieldName, string fieldValue)
+        public async Task<bool> UpdateStudentSingleAttributeAsync(string id, JsonPatchDocument<Student> patchDocument)
         {
             var filter = Builders<Student>.Filter.Eq("Id", id);
             var student = await _studentsCollection.Find(filter).FirstOrDefaultAsync();
@@ -77,10 +78,15 @@ namespace B.DatabaseAccess.DataAccess
                 return false; // Student not found
             }
 
-            // patchDocument.ApplyTo(student);
+            Console.WriteLine("Before Patch: " + JsonConvert.SerializeObject(student));
+
+            patchDocument.ApplyTo(student);
+
+            Console.WriteLine("After Patch: " + JsonConvert.SerializeObject(student));
 
             var result = await _studentsCollection.ReplaceOneAsync(filter, student);
 
+            Console.WriteLine(result);
             return result.ModifiedCount > 0;
         }
 

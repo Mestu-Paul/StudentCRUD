@@ -1,15 +1,14 @@
-﻿using A.Contracts.Contracts;
-using A.Contracts.Models;
+﻿using A.Contracts.Models;
 using B.DatabaseAccess.IDataAccess;
 using C.BusinessLogic.ILoigcs;
 using Microsoft.AspNetCore.JsonPatch;
+using System.Xml.XPath;
 
 namespace C.BusinessLogic.Logics
 {
     public class StudentLogic : IStudentLogic
     {
         private readonly IStudentDataAccess _studentsService;
-        private readonly StudentResponse _studentResponse = new StudentResponse();
 
         public StudentLogic(IStudentDataAccess studentsService)
         {
@@ -22,49 +21,18 @@ namespace C.BusinessLogic.Logics
             return;
         }
         
-        public async Task<StudentResponse> GetAllStudentsAsync()
+        public async Task<List<Student>> GetAllStudentsAsync()
         {
-            try
-            {
-                _studentResponse.students = await _studentsService.GetAllStudentsAsync();
-                _studentResponse.isSuccess = true;
-                _studentResponse.message = "";
-            }
-            catch (Exception e)
-            {
-                _studentResponse.message = "Something error while call GetAllStudents API";
-                _studentResponse.isSuccess = false;
-                _studentResponse.students = null;
-            }
-            return _studentResponse;
-
+            return await _studentsService.GetAllStudentsAsync();
         }
 
-        public async Task<StudentResponse> GetStudentsPagedAsync(int pageNumber, int pageSize)
+        public async Task<List<Student>> GetStudentsPagedAsync(int pageNumber, int pageSize)
         {
-            _studentResponse.isSuccess = false;
-            _studentResponse.students = null;
             if (pageNumber <= 0 || pageSize <= 0)
             {
-                _studentResponse.message = "Page number and size can not be 0 or negative";
-                return _studentResponse;
+                throw new ArgumentOutOfRangeException("Invalid page number or size");
             }
-            try
-            {
-                _studentResponse.students = await _studentsService.GetStudentsPagedAsync(pageNumber, pageSize);
-                _studentResponse.isSuccess = true;
-                _studentResponse.message = "";
-            }
-            catch (ArgumentOutOfRangeException e)
-            {
-                _studentResponse.message = "Invalid page number or size";
-            }
-            catch (Exception e)
-            {
-                _studentResponse.message = "Something wrong while call GetStudents API";
-            }
-            return _studentResponse;
-
+            return await _studentsService.GetStudentsPagedAsync(pageNumber, pageSize);
         }
 
         public async Task<long> GetTotalNumberOfStudentsAsync()
@@ -72,76 +40,20 @@ namespace C.BusinessLogic.Logics
             return await _studentsService.GetTotalNumberOfStudentsAsync();
         }
 
-        public async Task<StudentResponse> UpdateStudentSingleAttributeAsync(string id, string fieldName, string fieldValue)
+        public async Task<bool> UpdateStudentSingleAttributeAsync(string id, JsonPatchDocument<Student> patchDocument)
         {
-            _studentResponse.isSuccess = false;
-            _studentResponse.students = null;
-            if (id.Length <= 0)
-            {
-                _studentResponse.message = "ID can not be empty!";
-                return _studentResponse;
-            }
-            try
-            {
-                await _studentsService.UpdateStudentSingleAttributeAsync(id, fieldName, fieldValue);
-                _studentResponse.isSuccess = true;
-                _studentResponse.message = "Updated students information";
-            }
-            catch (Exception e)
-            {
-                _studentResponse.message = "Something wrong while updating students information";
-            }
-            return _studentResponse;
+            
+            return await _studentsService.UpdateStudentSingleAttributeAsync(id,  patchDocument); ;
         }
 
-        public async Task<StudentResponse> UpdateStudentAsync(string id, Student student)
+        public async Task<bool> UpdateStudentAsync(string id, Student student)
         {
-            _studentResponse.isSuccess = false;
-            _studentResponse.students = null;
-            if (id.Length <= 0)
-            {
-                _studentResponse.message = "ID can not be empty!";
-                return _studentResponse;
-            }
-            try
-            {
-                await _studentsService.UpdateStudentAsync(id,student);
-                _studentResponse.isSuccess = true;
-                _studentResponse.message = "Updated students information";
-            }
-            catch (Exception e)
-            {
-                _studentResponse.message = "Something wrong while updating students information";
-            }
-            return _studentResponse;
+            return await _studentsService.UpdateStudentAsync(id, student); ;
         }
 
-        public async Task<StudentResponse> DeleteStudentAsync(string id)
+        public async Task<bool> DeleteStudentAsync(string id)
         {
-            _studentResponse.isSuccess = false;
-            _studentResponse.students = null;
-            try
-            {
-                bool isDeleted = await _studentsService.DeleteStudentAsync(id);
-                _studentResponse.isSuccess |= isDeleted;
-                if (isDeleted)
-                {
-                    _studentResponse.message = "Successfully deleted";
-                }
-                else
-                {
-                    _studentResponse.message = "Invalid student information or not found";
-                }
-            }
-            catch (FormatException e)
-            {
-                _studentResponse.message = "Invalid  id format";
-            }
-            catch (Exception e)
-            {
-                _studentResponse.message = "Something wrong while deleting a students information";
-            }
-            return _studentResponse;
+            return await _studentsService.DeleteStudentAsync(id); ;
         }
     }
 }
