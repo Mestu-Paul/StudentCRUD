@@ -6,7 +6,7 @@ namespace C.BusinessLogic.ILoigcs
 {
     public interface IStudentLogic
     {
-        Task<StudentResponse> CreateNewStudentAsync(Student student);
+        Task CreateNewStudentAsync(Student student);
         Task<StudentResponse> GetAllStudentsAsync();
         Task<StudentResponse> DeleteStudentAsync(string id);
         Task<StudentResponse> UpdateStudentAsync(string id, Student student);

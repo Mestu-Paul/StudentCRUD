@@ -16,24 +16,10 @@ namespace C.BusinessLogic.Logics
             _studentsService = studentsService;
         }
 
-        public async Task<StudentResponse> CreateNewStudentAsync(Student student)
+        public async Task CreateNewStudentAsync(Student student)
         {
-            _studentResponse.isSuccess = false;
-            _studentResponse.students = null;
-
-            student.CreatedAt = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"); ;
-            student.LastUpdatedAt = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
-            try
-            {
-                await _studentsService.CreateNewStudentAsync(student);
-                _studentResponse.isSuccess = true;
-                _studentResponse.message = "Created a new student";
-            }
-            catch (Exception e)
-            {
-                _studentResponse.message = "Something wrong while creating a new student";
-            }
-            return _studentResponse;
+            await _studentsService.CreateNewStudentAsync(student);
+            return;
         }
         
         public async Task<StudentResponse> GetAllStudentsAsync()
