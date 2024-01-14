@@ -22,17 +22,19 @@ namespace B.DatabaseAccess.DataAccess
 
         public async Task CreateNewStudentAsync(Student student)
         {
+            student.CreatedAt = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"); ;
+            student.LastUpdatedAt = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
             await _studentsCollection.InsertOneAsync(student);
             return;
         }
 
-        // get all students information from student collection
+
         public async Task<List<Student>> GetAllStudentsAsync()
         {
             return await _studentsCollection.Find(new BsonDocument()).ToListAsync();
         }
 
-        // get a range of student's information from student collection for pagination
+
         public async Task<List<Student>> GetStudentsPagedAsync(int pageNumber, int pageSize)
         {
             int skipCount = (pageNumber - 1) * pageSize;
@@ -42,7 +44,7 @@ namespace B.DatabaseAccess.DataAccess
                 .ToListAsync();
         }
 
-        // get the total number of student in students collection
+
         public async Task<long> GetTotalNumberOfStudentsAsync()
         {
             return await _studentsCollection.EstimatedDocumentCountAsync();
@@ -72,10 +74,11 @@ namespace B.DatabaseAccess.DataAccess
         {
             var filter = Builders<Student>.Filter.Eq("Id", id);
             var student = await _studentsCollection.Find(filter).FirstOrDefaultAsync();
+            student.LastUpdatedAt = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
 
             if (student == null)
             {
-                return false; // Student not found
+                return false; 
             }
 
             Console.WriteLine("Before Patch: " + JsonConvert.SerializeObject(student));

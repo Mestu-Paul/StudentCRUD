@@ -20,6 +20,12 @@ namespace B1.RedisCache
             return default;
         }
 
+        public async Task<T> GetData<T>(int page, int pageSize)
+        {
+            string key = page.ToString() + "-" + pageSize.ToString();
+            return await this.GetData<T>(key);
+        }
+
         public async Task<bool> SetData<T>(string key, T value, DateTimeOffset expirationTime)
         {
             var expiryTime = expirationTime.DateTime.Subtract(DateTime.Now);
@@ -35,6 +41,28 @@ namespace B1.RedisCache
             return false;
         }
 
+        private async Task AddPageToQueue(string key)
+        {
+            await _cacheDb.ListRightPushAsync("page", key);
+            long queueLength = _cacheDb.ListLength("page");
+            if (queueLength > 5)
+            {
+               await _cacheDb.ListLeftPopAsync("page");
+            }
+        }
+
+        public async Task<bool> SetData<T>(int page, int pageSize, T value, DateTimeOffset expirationTIme)
+        {
+            string key = page.ToString() + "-" + pageSize.ToString();
+            this.AddPageToQueue(key);
+            var isSet = await _cacheDb.StringSetAsync(key, JsonSerializer.Serialize(value));
+            return isSet;
+        }
+
+        public async Task ClearCache()
+        {
+            _cacheDb.Execute("FLUSHDB");
+        }
 
     }
 }

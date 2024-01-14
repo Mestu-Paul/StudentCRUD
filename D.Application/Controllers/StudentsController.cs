@@ -13,24 +13,18 @@ namespace D.Application.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly IStudentLogic _studentLogic;
-        private readonly StudentResponse _studentResponse = new StudentResponse();
 
-        private readonly ICache _cache;
-
-        public StudentsController(IStudentLogic studentLogic, ICache cache)
+        public StudentsController(IStudentLogic studentLogic)
         {
             _studentLogic = studentLogic;
-            _cache = cache;
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateNewStudent([FromBody]Student student)
         {
+            StudentResponse _studentResponse = new StudentResponse();
             _studentResponse.isSuccess = false;
             _studentResponse.students = null;
-
-            student.CreatedAt = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"); ;
-            student.LastUpdatedAt = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
             try
             {
                 await _studentLogic.CreateNewStudentAsync(student);
@@ -53,35 +47,16 @@ namespace D.Application.Controllers
         [HttpGet]
         public async Task<StudentResponse> GetAllStudents()
         {
-            try
-            {
-                var cacheData = await _cache.GetData<List<Student>>("allStudents");
-                if (cacheData != null && cacheData.Count() > 0)
-                {
-                    _studentResponse.message = "data from cache";
-                    _studentResponse.students = cacheData;
-                    _studentResponse.isSuccess = true;
-                    return _studentResponse;
-                }
-            }
-            catch (Exception e)
-            {
-                
-            }
+            StudentResponse _studentResponse = new StudentResponse();
             try
             {
                 _studentResponse.students = await _studentLogic.GetAllStudentsAsync();
                 _studentResponse.isSuccess = true;
                 _studentResponse.message = "";
-
-                var expiryTime = DateTimeOffset.Now.AddSeconds(30);
-                _cache.SetData("allStudents", _studentResponse.students, expiryTime);
             }
             catch (Exception e)
             {
                 _studentResponse.message = "Something error while call GetAllStudents API";
-                _studentResponse.isSuccess = false;
-                _studentResponse.students = null;
             }
             return _studentResponse;
         }
@@ -89,9 +64,7 @@ namespace D.Application.Controllers
         [HttpGet]
         public async Task<IActionResult> GetStudents(int pageNumber, int pageSize)
         {
-            _studentResponse.isSuccess = false;
-            _studentResponse.students = null;
-            
+            StudentResponse _studentResponse = new StudentResponse();
             try
             {
                 _studentResponse.students = await _studentLogic.GetStudentsPagedAsync(pageNumber, pageSize);
@@ -112,16 +85,22 @@ namespace D.Application.Controllers
         }
 
         [HttpGet]
-        public async Task<long> GetTotalNumberOfStudents()
+        public async Task<IActionResult> GetTotalNumberOfStudents()
         {
-            return await _studentLogic.GetTotalNumberOfStudentsAsync();
+            try
+            {
+                return Ok(await _studentLogic.GetTotalNumberOfStudentsAsync());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500,e.Message);
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<StudentResponse> UpdateStudent(string id, [FromBody]Student student)
         {
-            _studentResponse.isSuccess = false;
-            _studentResponse.students = null;
+            StudentResponse _studentResponse = new StudentResponse();
             try
             {
                 await _studentLogic.UpdateStudentAsync(id, student);
@@ -146,8 +125,7 @@ namespace D.Application.Controllers
             {
                 return BadRequest("Invalid ID or payload");
             }
-            _studentResponse.isSuccess = false;
-            _studentResponse.students = null;
+            StudentResponse _studentResponse = new StudentResponse();
             try
             {
                 await _studentLogic.UpdateStudentSingleAttributeAsync(id, patchDocument);
@@ -174,8 +152,7 @@ namespace D.Application.Controllers
         [HttpDelete("{id}")]
         public async Task<StudentResponse> DeleteStudent(string id)
         {
-            _studentResponse.isSuccess = false;
-            _studentResponse.students = null;
+            StudentResponse _studentResponse = new StudentResponse();
             try
             {
                 bool isDeleted = await _studentLogic.DeleteStudentAsync(id);
@@ -186,7 +163,7 @@ namespace D.Application.Controllers
                 }
                 else
                 {
-                    _studentResponse.message = "Invalid student information";
+                    _studentResponse.message = "Invalid student's information format.";
                 }
             }
             catch (FormatException e)
@@ -195,7 +172,7 @@ namespace D.Application.Controllers
             }
             catch (Exception e)
             {
-                _studentResponse.message = "Something wrong while deleting a students information";
+                _studentResponse.message = "Something wrong while deleting a student's information";
             }
 
             return _studentResponse;
