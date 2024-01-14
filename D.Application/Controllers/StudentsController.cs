@@ -9,17 +9,17 @@ using Microsoft.AspNetCore.Mvc;
 namespace D.Application.Controllers
 {
     [Controller]
-    [Route("api/[controller]/[action]")]
-    public class StudentsController : ControllerBase
+    [Route("api/[controller]")]
+    public class StudentController : ControllerBase
     {
         private readonly IStudentLogic _studentLogic;
 
-        public StudentsController(IStudentLogic studentLogic)
+        public StudentController(IStudentLogic studentLogic)
         {
             _studentLogic = studentLogic;
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateNewStudent([FromBody]Student student)
         {
             StudentResponse _studentResponse = new StudentResponse();
@@ -44,7 +44,7 @@ namespace D.Application.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<StudentResponse> GetAllStudents()
         {
             StudentResponse _studentResponse = new StudentResponse();
@@ -61,7 +61,7 @@ namespace D.Application.Controllers
             return _studentResponse;
         }
 
-        [HttpGet]
+        [HttpGet("filterByPage")]
         public async Task<IActionResult> GetStudents(int pageNumber, int pageSize)
         {
             StudentResponse _studentResponse = new StudentResponse();
@@ -84,8 +84,8 @@ namespace D.Application.Controllers
             
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetTotalNumberOfStudents()
+        [HttpGet("count")]
+        public async Task<IActionResult> GetCount()
         {
             try
             {
@@ -97,8 +97,8 @@ namespace D.Application.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<StudentResponse> UpdateStudent(string id, [FromBody]Student student)
+        [HttpPut("update/{id}")]
+        public async Task<StudentResponse> UpdateStudent(string id, [FromBody]UpdateStudent student)
         {
             StudentResponse _studentResponse = new StudentResponse();
             try
@@ -118,7 +118,7 @@ namespace D.Application.Controllers
             return _studentResponse;
         }
 
-        [HttpPatch("{id}")]
+        [HttpPatch("partialUpdate/{id}")]
         public async Task<IActionResult> UpdateStudent(string id, [FromBody] JsonPatchDocument<Student> patchDocument)
         {
             if (string.IsNullOrEmpty(id) || patchDocument == null)

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace A.Contracts.Models
 {
     [BsonIgnoreExtraElements]
-    public class Student
+    public class Student : UpdateStudent
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -24,28 +24,10 @@ namespace A.Contracts.Models
         [BsonElement("student_id")]
         public string StudentId { get; set; }
 
-        [BsonElement("name")]
-        public string Name { get; set; }
-
-        [BsonElement("department")]
-        public string Department { get; set; }
-
-        [BsonElement("session")]
-        public string Session { get; set; }
-
-        [BsonElement("phone")]
-        public string Phone { get; set; }
-
         [BsonElement("gender")]
         public string Gender { get; set; }
 
         [BsonElement("blood_group")]
         public string BloodGroup { get; set; }
-
-        [BsonElement("last_donated_at")]
-        public string LastDonatedAt { get; set; }
-
-        [BsonElement("address")]
-        public string Address { get; set; }
     }
 }

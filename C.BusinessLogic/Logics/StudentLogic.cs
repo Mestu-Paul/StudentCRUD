@@ -99,7 +99,7 @@ namespace C.BusinessLogic.Logics
             return await _studentsService.UpdateStudentSingleAttributeAsync(id,  patchDocument); ;
         }
 
-        public async Task<bool> UpdateStudentAsync(string id, Student student)
+        public async Task<bool> UpdateStudentAsync(string id, UpdateStudent student)
         {
             _redisCache.ClearCache();
             return await _studentsService.UpdateStudentAsync(id, student); ;

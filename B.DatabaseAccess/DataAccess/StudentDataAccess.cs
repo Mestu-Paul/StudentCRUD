@@ -15,9 +15,10 @@ namespace B.DatabaseAccess.DataAccess
         private readonly IMongoCollection<Student> _studentsCollection;
         public StudentDataAccess(IOptions<MongoDBSetting> mongoDbSetting)
         {
+            string studentCollection = "students";
             MongoClient client = new MongoClient(mongoDbSetting.Value.ConnectionStrings);
             IMongoDatabase database = client.GetDatabase(mongoDbSetting.Value.DatabaseName);
-            _studentsCollection = database.GetCollection<Student>(mongoDbSetting.Value.CollectionName["students"]);
+            _studentsCollection = database.GetCollection<Student>(studentCollection);
         }
 
         public async Task CreateNewStudentAsync(Student student)
@@ -50,17 +51,14 @@ namespace B.DatabaseAccess.DataAccess
             return await _studentsCollection.EstimatedDocumentCountAsync();
         }
 
-        public async Task<bool> UpdateStudentAsync(string id, Student student)
+        public async Task<bool> UpdateStudentAsync(string id, UpdateStudent student)
         {
             var filter = Builders<Student>.Filter.Eq("Id", id);
             var updateDefinition = Builders<Student>.Update
-                .Set(s => s.StudentId, student.StudentId)
                 .Set(s => s.Name, student.Name)
                 .Set(s => s.Department, student.Department)
                 .Set(s => s.Session, student.Session)
-                .Set(s => s.Gender, student.Gender)
                 .Set(s => s.Phone, student.Phone)
-                .Set(s => s.BloodGroup, student.BloodGroup)
                 .Set(s => s.LastDonatedAt, student.LastDonatedAt)
                 .Set(s => s.Address, student.Address)
                 .Set(s => s.LastUpdatedAt, DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"))

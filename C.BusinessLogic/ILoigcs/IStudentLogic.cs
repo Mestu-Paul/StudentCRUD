@@ -10,7 +10,7 @@ namespace C.BusinessLogic.ILoigcs
         Task<List<Student>> GetStudentsPagedAsync(int pageNumber, int pageSize);
         Task<long> GetTotalNumberOfStudentsAsync();
         Task<bool> DeleteStudentAsync(string id);
-        Task<bool> UpdateStudentAsync(string id, Student student);
+        Task<bool> UpdateStudentAsync(string id, UpdateStudent student);
         Task<bool> UpdateStudentSingleAttributeAsync(string id, JsonPatchDocument<Student> patchDocument);
     }
 }
