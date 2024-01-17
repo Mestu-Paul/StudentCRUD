@@ -6,7 +6,6 @@ using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
-using System.Xml.XPath;
 
 namespace B.DatabaseAccess.DataAccess
 {
@@ -20,6 +19,32 @@ namespace B.DatabaseAccess.DataAccess
             IMongoDatabase database = client.GetDatabase(mongoDbSetting.Value.DatabaseName);
             _studentsCollection = database.GetCollection<Student>(studentCollection);
         }
+
+        private FilterDefinition<Student> GetCombinedFilter(string department, string session, string gender){
+            var filterBuilder = Builders<Student>.Filter;
+            var combinedFilter = filterBuilder.Empty;
+
+            if (!string.IsNullOrEmpty(department))
+            {
+                var departmentFilter = filterBuilder.Eq("Department", department);
+                combinedFilter = filterBuilder.And(combinedFilter, departmentFilter);
+            }
+
+            if (!string.IsNullOrEmpty(session))
+            {
+                var sessionFilter = filterBuilder.Eq("Session", session);
+                combinedFilter = filterBuilder.And(combinedFilter, sessionFilter);
+            }
+
+            if (!string.IsNullOrEmpty(gender))
+            {
+                var genderFilter = filterBuilder.Eq("Gender", gender);
+                combinedFilter = filterBuilder.And(combinedFilter, genderFilter);
+            }
+
+            return combinedFilter;
+        }
+
 
         public async Task CreateNewStudentAsync(Student student)
         {
@@ -45,6 +70,40 @@ namespace B.DatabaseAccess.DataAccess
                 .ToListAsync();
         }
 
+        public async Task<List<Student>> GetCustomFilteredStudentsAsync(int pageNumber, string filterBy, string filterText)
+        {
+            var filter = Builders<Student>.Filter.Eq(filterBy, filterText);
+            int skipCount = (pageNumber - 1) * 10;
+            return await _studentsCollection.Find(filter).Skip(skipCount)
+                .Limit(10)
+                .ToListAsync();
+        }
+        
+        public async Task<List<Student>> GetCustomFilteredStudentsAsync(int pageNumber, string department, string session, string gender)
+        {
+
+            var combinedFilter = GetCombinedFilter(department, session, gender);
+
+            int skipCount = (pageNumber - 1) * 10;
+            
+            var filteredStudents = await _studentsCollection
+                .Find(combinedFilter)
+                .Skip(skipCount)
+                .Limit(10)
+                .ToListAsync();
+
+            return filteredStudents;
+        }
+
+
+
+        public async Task<long> GetNumberOfCustomFilterStudentsAsync(string department, string session, string gender)
+        {
+            var combinedFilter = GetCombinedFilter(department, session, gender);
+            return await _studentsCollection.Find(combinedFilter).CountDocumentsAsync();
+        }
+
+
 
         public async Task<long> GetTotalNumberOfStudentsAsync()
         {
@@ -68,7 +127,7 @@ namespace B.DatabaseAccess.DataAccess
             return updateResult.ModifiedCount > 0;
         }
 
-        public async Task<bool> UpdateStudentSingleAttributeAsync(string id, JsonPatchDocument<Student> patchDocument)
+        public async Task<bool> PartialUpdateAsync(string id, JsonPatchDocument<Student> patchDocument)
         {
             var filter = Builders<Student>.Filter.Eq("Id", id);
             var student = await _studentsCollection.Find(filter).FirstOrDefaultAsync();

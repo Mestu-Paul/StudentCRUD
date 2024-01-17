@@ -8,8 +8,6 @@ using C.BusinessLogic.Logics;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 // configure mongoDB
 builder.Services.Configure<MongoDBSetting>(builder.Configuration.GetSection("MongoDB"));
 

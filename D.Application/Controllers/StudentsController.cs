@@ -1,10 +1,9 @@
 ﻿using A.Contracts.Models;
-using B1.RedisCache;
 using C.BusinessLogic.ILoigcs;
 using D.Application.Contracts;
 using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.JsonPatch.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 
 namespace D.Application.Controllers
 {
@@ -22,30 +21,23 @@ namespace D.Application.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateNewStudent([FromBody]Student student)
         {
-            StudentResponse _studentResponse = new StudentResponse();
-            _studentResponse.isSuccess = false;
-            _studentResponse.students = null;
             try
             {
                 await _studentLogic.CreateNewStudentAsync(student);
-                _studentResponse.isSuccess = true;
-                _studentResponse.message = "Created a new student";
-                return StatusCode(201, _studentResponse);
+                return StatusCode(201);
             }
             catch (FormatException e)
             {
-                _studentResponse.message = e.Message;
-                return StatusCode(400, _studentResponse);
+                return StatusCode(400, e.Message);
             }
             catch (Exception e)
             {
-                _studentResponse.message = "Something wrong while creating a new student";
-                return StatusCode(500, _studentResponse);
+                return BadRequest(e.Message);
             }
         }
 
         [HttpGet("all")]
-        public async Task<StudentResponse> GetAllStudents()
+        public async Task<IActionResult> GetAllStudents()
         {
             StudentResponse _studentResponse = new StudentResponse();
             try
@@ -53,12 +45,12 @@ namespace D.Application.Controllers
                 _studentResponse.students = await _studentLogic.GetAllStudentsAsync();
                 _studentResponse.isSuccess = true;
                 _studentResponse.message = "";
+                return Ok(_studentResponse);
             }
             catch (Exception e)
             {
-                _studentResponse.message = "Something error while call GetAllStudents API";
+                return StatusCode(500, $"Something wrong : {e.Message}");
             }
-            return _studentResponse;
         }
 
         [HttpGet("filterByPage")]
@@ -74,14 +66,44 @@ namespace D.Application.Controllers
             }
             catch (ArgumentOutOfRangeException e)
             {
-                _studentResponse.message = e.Message;
+                return StatusCode(400, "Invalid page number and/or size");
             }
             catch (Exception e)
             {
-                _studentResponse.message = "Something wrong while call GetStudents API";
+                return StatusCode(500, $"Something wrong : {e.Message}");
             }
-            return BadRequest(_studentResponse);
-            
+        }
+
+
+        [HttpGet("customFilter")]
+        public async Task<IActionResult> GetCustomFilteredStudents(int pageNumber, [FromQuery] string department,
+            [FromQuery] string session, [FromQuery] string gender)
+        {
+            try
+            {
+                List<Student> students = await _studentLogic.GetCustomFilteredStudentsAsync(pageNumber, department, session, gender);
+                return Ok(students);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+             
+        }
+
+
+        [HttpGet("countCustomFilter")]
+        public async Task<IActionResult> GetCountCustomFilter([FromQuery] string department,
+            [FromQuery] string session, [FromQuery] string gender)
+        {
+            try
+            {
+                return Ok(await _studentLogic.GetNumberOfCustomFilterStudentsAsync(department, session, gender));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"Something wrong : {e.Message}");
+            }
         }
 
         [HttpGet("count")]
@@ -93,89 +115,73 @@ namespace D.Application.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500,e.Message);
+                return StatusCode(500, $"Something wrong : {e.Message}");
             }
         }
 
         [HttpPut("update/{id}")]
-        public async Task<StudentResponse> UpdateStudent(string id, [FromBody]UpdateStudent student)
+        public async Task<IActionResult> UpdateStudent(string id, [FromBody]UpdateStudent student)
         {
-            StudentResponse _studentResponse = new StudentResponse();
             try
             {
                 await _studentLogic.UpdateStudentAsync(id, student);
-                _studentResponse.isSuccess = true;
-                _studentResponse.message = "Updated students information";
+                return Ok("Updated students information");
             }
             catch (FormatException e)
             {
-                _studentResponse.message = e.Message;
+                return StatusCode(400,"Invalid input format");
             }
             catch (Exception e)
             {
-                _studentResponse.message = "Something wrong while updating students information";
+                return StatusCode(500, $"Something wrong : {e.Message}");
             }
-            return _studentResponse;
         }
 
         [HttpPatch("partialUpdate/{id}")]
-        public async Task<IActionResult> UpdateStudent(string id, [FromBody] JsonPatchDocument<Student> patchDocument)
+        public async Task<IActionResult> PartialUpdateAsync(string id, [FromBody] JsonPatchDocument<Student> patchDocument)
         {
             if (string.IsNullOrEmpty(id) || patchDocument == null)
             {
                 return BadRequest("Invalid ID or payload");
             }
-            StudentResponse _studentResponse = new StudentResponse();
             try
             {
-                await _studentLogic.UpdateStudentSingleAttributeAsync(id, patchDocument);
-                _studentResponse.isSuccess = true;
-                _studentResponse.message = "Updated students information";
-                return Ok(_studentResponse);
+                await _studentLogic.PartialUpdateAsync(id, patchDocument);
+                return Ok("Updated students information");
             }
             catch (FormatException e)
             {
-                _studentResponse.message = e.Message;
-            }
-            catch (JsonPatchException e)
-            {
-                _studentResponse.message = e.Message;
+                return StatusCode(400, "Invalid input format");
             }
             catch (Exception e)
             {
-                _studentResponse.message = "Something wrong while updating students information";
+                return StatusCode(500, $"Something wrong : {e.Message}");
             }
-            return BadRequest(_studentResponse);
 
         }
 
-        [HttpDelete("{id}")]
-        public async Task<StudentResponse> DeleteStudent(string id)
-        {
-            StudentResponse _studentResponse = new StudentResponse();
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteStudent(string id){
             try
             {
-                bool isDeleted = await _studentLogic.DeleteStudentAsync(id);
-                _studentResponse.isSuccess |= isDeleted;
-                if (isDeleted)
+                bool isSuccess = await _studentLogic.DeleteStudentAsync(id);
+                if (isSuccess)
                 {
-                    _studentResponse.message = "Successfully deleted";
+                    return Ok("Successfully deleted");
                 }
                 else
                 {
-                    _studentResponse.message = "Invalid student's information format.";
+                    return BadRequest("Invalid student's information format.");
                 }
             }
             catch (FormatException e)
             {
-                _studentResponse.message = "Invalid  id format";
+                return StatusCode(400, "Invalid id format");
             }
             catch (Exception e)
             {
-                _studentResponse.message = "Something wrong while deleting a student's information";
+                return StatusCode(500, $"Something wrong : {e.Message}");
             }
-
-            return _studentResponse;
         }
     }
 }
