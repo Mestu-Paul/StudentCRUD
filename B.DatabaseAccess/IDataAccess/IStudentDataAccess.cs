@@ -10,10 +10,8 @@ namespace B.DatabaseAccess.IDataAccess
         Task<bool> DeleteStudentAsync(string id);
         Task<bool> UpdateStudentAsync(string id, UpdateStudent student);
         Task<bool> PartialUpdateAsync(string id, JsonPatchDocument<Student> patchDocument);
-        Task<List<Student>> GetStudentsPagedAsync(int pageNumber, int pageSize);
-        Task<List<Student>> GetCustomFilteredStudentsAsync(int pageNumber, string filterBy, string filterText);
-        Task<List<Student>> GetCustomFilteredStudentsAsync(int pageNumber, string department, string session, string gender);
-        Task<long> GetNumberOfCustomFilterStudentsAsync(string department, string session, string gender);
-        Task<long> GetTotalNumberOfStudentsAsync();
+
+        Task<List<Student>> GetFilteredStudentsAsync(StudentFilterParameters studentFilterParameters);
+        Task<long> GetFilteredStudentsCountAsync(StudentFilterParameters studentFilterParameters);
     }
 }

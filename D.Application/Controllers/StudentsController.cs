@@ -1,6 +1,7 @@
 ﻿using A.Contracts.Models;
 using C.BusinessLogic.ILoigcs;
 using D.Application.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
@@ -9,6 +10,9 @@ namespace D.Application.Controllers
 {
     [Controller]
     [Route("api/[controller]")]
+
+
+    [Authorize]
     public class StudentController : ControllerBase
     {
         private readonly IStudentLogic _studentLogic;
@@ -32,91 +36,39 @@ namespace D.Application.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest("bad request"+e.Message);
             }
         }
-
+        
         [HttpGet("all")]
         public async Task<IActionResult> GetAllStudents()
         {
-            StudentResponse _studentResponse = new StudentResponse();
             try
             {
-                _studentResponse.students = await _studentLogic.GetAllStudentsAsync();
-                _studentResponse.isSuccess = true;
-                _studentResponse.message = "";
-                return Ok(_studentResponse);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, $"Something wrong : {e.Message}");
-            }
-        }
-
-        [HttpGet("filterByPage")]
-        public async Task<IActionResult> GetStudents(int pageNumber, int pageSize)
-        {
-            StudentResponse _studentResponse = new StudentResponse();
-            try
-            {
-                _studentResponse.students = await _studentLogic.GetStudentsPagedAsync(pageNumber, pageSize);
-                _studentResponse.isSuccess = true;
-                _studentResponse.message = "";
-                return Ok(_studentResponse);
-            }
-            catch (ArgumentOutOfRangeException e)
-            {
-                return StatusCode(400, "Invalid page number and/or size");
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, $"Something wrong : {e.Message}");
-            }
-        }
-
-
-        [HttpGet("customFilter")]
-        public async Task<IActionResult> GetCustomFilteredStudents(int pageNumber, [FromQuery] string department,
-            [FromQuery] string session, [FromQuery] string gender)
-        {
-            try
-            {
-                List<Student> students = await _studentLogic.GetCustomFilteredStudentsAsync(pageNumber, department, session, gender);
+                List<Student> students = await _studentLogic.GetAllStudentsAsync();
                 return Ok(students);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"Something wrong : {e.Message}");
+            }
+        }
+
+
+
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetFilteredStudents([FromQuery]StudentFilterParameters studentFilterParameters)
+        {
+            try
+            {
+                FilterResponse<Student> filterResponse = new FilterResponse<Student>(await _studentLogic.GetFilteredStudentsAsync(studentFilterParameters), studentFilterParameters.PageSize);
+                return Ok(filterResponse);
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
              
-        }
-
-
-        [HttpGet("countCustomFilter")]
-        public async Task<IActionResult> GetCountCustomFilter([FromQuery] string department,
-            [FromQuery] string session, [FromQuery] string gender)
-        {
-            try
-            {
-                return Ok(await _studentLogic.GetNumberOfCustomFilterStudentsAsync(department, session, gender));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, $"Something wrong : {e.Message}");
-            }
-        }
-
-        [HttpGet("count")]
-        public async Task<IActionResult> GetCount()
-        {
-            try
-            {
-                return Ok(await _studentLogic.GetTotalNumberOfStudentsAsync());
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, $"Something wrong : {e.Message}");
-            }
         }
 
         [HttpPut("update/{id}")]
@@ -147,7 +99,7 @@ namespace D.Application.Controllers
             try
             {
                 await _studentLogic.PartialUpdateAsync(id, patchDocument);
-                return Ok("Updated students information");
+                return Ok();
             }
             catch (FormatException e)
             {
@@ -167,7 +119,7 @@ namespace D.Application.Controllers
                 bool isSuccess = await _studentLogic.DeleteStudentAsync(id);
                 if (isSuccess)
                 {
-                    return Ok("Successfully deleted");
+                    return Ok();
                 }
                 else
                 {

@@ -19,6 +19,18 @@ namespace C.BusinessLogic.Logics
             _redisCache = redisCache;
         }
 
+        private string GenerateCacheKey(StudentFilterParameters studentFilterParameters)
+        {
+            string cacheKey = "page-" + studentFilterParameters.PageNumber.ToString()+"size-"+ studentFilterParameters.PageSize.ToString();
+
+            if(!string.IsNullOrEmpty(studentFilterParameters.Department)) { cacheKey += "dept-"+ studentFilterParameters.Department; }
+            if (!string.IsNullOrEmpty(studentFilterParameters.Gender)) { cacheKey += "gender-" + studentFilterParameters.Gender; }
+            if (!string.IsNullOrEmpty(studentFilterParameters.Session)) { cacheKey += "session-" + studentFilterParameters.Session; }
+            if (!string.IsNullOrEmpty(studentFilterParameters.BloodGroup)) { cacheKey += "blood-" + studentFilterParameters.BloodGroup; }
+
+            return cacheKey;
+        }
+
         public async Task CreateNewStudentAsync(Student student)
         {
             await _studentsService.CreateNewStudentAsync(student);
@@ -28,85 +40,35 @@ namespace C.BusinessLogic.Logics
         
         public async Task<List<Student>> GetAllStudentsAsync()
         {
-            try
+            var cacheData = await _redisCache.GetData<List<Student>>("allStudents");
+            if (cacheData != null && cacheData.Count() > 0)
             {
-                var cacheData = await _redisCache.GetData<List<Student>>("allStudents");
-                if (cacheData != null && cacheData.Count() > 0)
-                {
-                    return cacheData;
-                }
-
-                var students = await _studentsService.GetAllStudentsAsync();
-
-                var expiryTime = DateTimeOffset.Now.AddSeconds(30);
-                _redisCache.SetData("allStudents", students, expiryTime);
-                return students;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-        }
-
-        public async Task<List<Student>> GetStudentsPagedAsync(int pageNumber, int pageSize)
-        {
-            if (pageNumber <= 0 || pageSize <= 0)
-            {
-                throw new ArgumentOutOfRangeException("Invalid page number or size");
-            }
-            try
-            {
-                var cacheData = await _redisCache.GetData<List<Student>>(pageNumber,pageSize);
-                if (cacheData != null && cacheData.Count() > 0)
-                {
-                    return cacheData;
-                }
-
-                var students = await _studentsService.GetStudentsPagedAsync(pageNumber, pageSize);
-
-                var expiryTime = DateTimeOffset.Now.AddMinutes(30);
-                _redisCache.SetData(pageNumber, pageSize, students, expiryTime);
-                return students;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-        }
-
-
-        public async Task<List<Student>> GetCustomFilteredStudentsAsync(int pageNumber, string filterBy, string filterText)
-        {
-            return await _studentsService.GetCustomFilteredStudentsAsync(pageNumber, filterBy, filterText);
-        }
-        public async Task<List<Student>> GetCustomFilteredStudentsAsync(int pageNumber, string department, string session, string gender)
-        {
-            return await _studentsService.GetCustomFilteredStudentsAsync(pageNumber, department, session, gender);
-        }
-
-        public async Task<long> GetNumberOfCustomFilterStudentsAsync(string department, string session, string gender)
-        {
-            return await _studentsService.GetNumberOfCustomFilterStudentsAsync(department, session, gender);
-        }
-
-        public async Task<long> GetTotalNumberOfStudentsAsync()
-        {
-            try
-            {
-                 var cacheData = await _redisCache.GetData<long>("numberOfStudents");
-                if (cacheData != null)
-                {
-                    return cacheData;
-                }
-                cacheData = await _studentsService.GetTotalNumberOfStudentsAsync();
-                await _redisCache.SetData("numberOfStudents", cacheData, DateTimeOffset.Now.AddMinutes(5));
                 return cacheData;
             }
-            catch (RedisConnectionException e)
+
+            var students = await _studentsService.GetAllStudentsAsync();
+
+            var expiryTime = DateTimeOffset.Now.AddSeconds(30);
+            _redisCache.SetData("allStudents", students, expiryTime);
+            return students;
+        }
+
+        public async Task<Tuple<List<Student>,long>> GetFilteredStudentsAsync(StudentFilterParameters studentFilterParameters)
+        {
+            var cacheKey = GenerateCacheKey(studentFilterParameters);
+            var cacheData = await _redisCache.GetData<Tuple<List<Student>, long>>(cacheKey);
+
+            if (cacheData != null )
             {
-                return await _studentsService.GetTotalNumberOfStudentsAsync();
+                return cacheData;
             }
-            
+
+            List<Student> students = await _studentsService.GetFilteredStudentsAsync(studentFilterParameters);
+            long count = await _studentsService.GetFilteredStudentsCountAsync(studentFilterParameters);
+
+            _redisCache.SetData(cacheKey, Tuple.Create(students, count), DateTimeOffset.Now.AddSeconds(60));
+
+            return Tuple.Create(students, count);
         }
 
         public async Task<bool> PartialUpdateAsync(string id, JsonPatchDocument<Student> patchDocument)

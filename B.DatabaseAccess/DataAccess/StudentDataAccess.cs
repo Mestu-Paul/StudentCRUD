@@ -12,6 +12,7 @@ namespace B.DatabaseAccess.DataAccess
     public class StudentDataAccess : IStudentDataAccess
     {
         private readonly IMongoCollection<Student> _studentsCollection;
+
         public StudentDataAccess(IOptions<MongoDBSetting> mongoDbSetting)
         {
             string studentCollection = "students";
@@ -20,31 +21,36 @@ namespace B.DatabaseAccess.DataAccess
             _studentsCollection = database.GetCollection<Student>(studentCollection);
         }
 
-        private FilterDefinition<Student> GetCombinedFilter(string department, string session, string gender){
+        private FilterDefinition<Student> GetCombinedFilter(StudentFilterParameters studentFilterParameters)
+        {
             var filterBuilder = Builders<Student>.Filter;
             var combinedFilter = filterBuilder.Empty;
-
-            if (!string.IsNullOrEmpty(department))
+            if (!string.IsNullOrEmpty(studentFilterParameters.Department))
             {
-                var departmentFilter = filterBuilder.Eq("Department", department);
+                var departmentFilter = filterBuilder.Eq("Department", studentFilterParameters.Department);
                 combinedFilter = filterBuilder.And(combinedFilter, departmentFilter);
             }
 
-            if (!string.IsNullOrEmpty(session))
+            if (!string.IsNullOrEmpty(studentFilterParameters.Session))
             {
-                var sessionFilter = filterBuilder.Eq("Session", session);
+                var sessionFilter = filterBuilder.Eq("Session", studentFilterParameters.Session);
                 combinedFilter = filterBuilder.And(combinedFilter, sessionFilter);
             }
 
-            if (!string.IsNullOrEmpty(gender))
+            if (!string.IsNullOrEmpty(studentFilterParameters.Gender))
             {
-                var genderFilter = filterBuilder.Eq("Gender", gender);
+                var genderFilter = filterBuilder.Eq("Gender", studentFilterParameters.Gender);
+                combinedFilter = filterBuilder.And(combinedFilter, genderFilter);
+            }
+
+            if (!string.IsNullOrEmpty(studentFilterParameters.BloodGroup))
+            {
+                var genderFilter = filterBuilder.Eq("BloodGroup", studentFilterParameters.BloodGroup);
                 combinedFilter = filterBuilder.And(combinedFilter, genderFilter);
             }
 
             return combinedFilter;
         }
-
 
         public async Task CreateNewStudentAsync(Student student)
         {
@@ -54,60 +60,31 @@ namespace B.DatabaseAccess.DataAccess
             return;
         }
 
-
         public async Task<List<Student>> GetAllStudentsAsync()
         {
             return await _studentsCollection.Find(new BsonDocument()).ToListAsync();
         }
 
-
-        public async Task<List<Student>> GetStudentsPagedAsync(int pageNumber, int pageSize)
-        {
-            int skipCount = (pageNumber - 1) * pageSize;
-            return await _studentsCollection.Find(student => true)
-                .Skip(skipCount)
-                .Limit(pageSize)
-                .ToListAsync();
-        }
-
-        public async Task<List<Student>> GetCustomFilteredStudentsAsync(int pageNumber, string filterBy, string filterText)
-        {
-            var filter = Builders<Student>.Filter.Eq(filterBy, filterText);
-            int skipCount = (pageNumber - 1) * 10;
-            return await _studentsCollection.Find(filter).Skip(skipCount)
-                .Limit(10)
-                .ToListAsync();
-        }
-        
-        public async Task<List<Student>> GetCustomFilteredStudentsAsync(int pageNumber, string department, string session, string gender)
+        public async Task<List<Student>> GetFilteredStudentsAsync(StudentFilterParameters studentFilterParameters)
         {
 
-            var combinedFilter = GetCombinedFilter(department, session, gender);
+            var combinedFilter = GetCombinedFilter(studentFilterParameters);
 
-            int skipCount = (pageNumber - 1) * 10;
+            int skipCount = (studentFilterParameters.PageNumber - 1) * studentFilterParameters.PageSize;
             
             var filteredStudents = await _studentsCollection
                 .Find(combinedFilter)
                 .Skip(skipCount)
-                .Limit(10)
+                .Limit(studentFilterParameters.PageSize)
                 .ToListAsync();
 
             return filteredStudents;
         }
-
-
-
-        public async Task<long> GetNumberOfCustomFilterStudentsAsync(string department, string session, string gender)
+        
+        public async Task<long> GetFilteredStudentsCountAsync(StudentFilterParameters studentFilterParameters)
         {
-            var combinedFilter = GetCombinedFilter(department, session, gender);
+            var combinedFilter = GetCombinedFilter(studentFilterParameters);
             return await _studentsCollection.Find(combinedFilter).CountDocumentsAsync();
-        }
-
-
-
-        public async Task<long> GetTotalNumberOfStudentsAsync()
-        {
-            return await _studentsCollection.EstimatedDocumentCountAsync();
         }
 
         public async Task<bool> UpdateStudentAsync(string id, UpdateStudent student)
@@ -150,8 +127,7 @@ namespace B.DatabaseAccess.DataAccess
             return result.ModifiedCount > 0;
         }
 
-        // delete a Single student Information from students collection using unique id
-        // if no data deleted return 0 otherwise 1
+
         public async Task<bool> DeleteStudentAsync(string id)
         {
             var filter = Builders<Student>.Filter.Eq("Id", id);
