@@ -1,10 +1,11 @@
-﻿using A.Contracts.Models;
+﻿using A.Contracts.DataTransferObjects;
+using A.Contracts.Models;
 
 namespace C.BusinessLogic.ILoigcs
 {
     public interface IAccountLogic
     {
-        Task<List<User>> GetUsersAsync();
+        Task<List<UserDTO>> GetUsersAsync();
         Task CreateUser(string username, string password, string role);
         Task UpdateUserRole(string username, string newRole);
         Task<bool> DeleteUser(string username);

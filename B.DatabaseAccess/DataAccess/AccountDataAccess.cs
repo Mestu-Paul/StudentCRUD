@@ -6,6 +6,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Security.Cryptography;
 using System.Text;
+using A.Contracts.DataTransferObjects;
 
 namespace B.DatabaseAccess.DataAccess
 {
@@ -21,9 +22,17 @@ namespace B.DatabaseAccess.DataAccess
             _userCollection = database.GetCollection<User>(collectionName);
         }
 
-        public async Task<List<User>> GetUsersAsync()
+        public async Task<List<UserDTO>> GetUsersAsync()
         {
-            return await _userCollection.Find(new BsonDocument()).ToListAsync();
+            var projection = Builders<User>.Projection.Include(u => u.UserName).Include(u => u.Role);
+
+            var users = await _userCollection.Find(new BsonDocument())
+                .Project(projection)
+                .ToListAsync();
+
+            // Projecting the username and role properties into tuples
+            List<UserDTO> result = users.Select(user => new UserDTO(user["userName"].AsString, user["role"].AsString)).ToList();
+            return result;
         }
 
         public async Task CreateNewUser(string username, string password, string role)
@@ -33,7 +42,7 @@ namespace B.DatabaseAccess.DataAccess
             var existingUser = await _userCollection.Find(u => u.UserName == username).FirstOrDefaultAsync();
             if (existingUser != null)
             {
-                throw new ArgumentException("Username is already taken", nameof(username));
+                throw new ArgumentException("Username has already taken");
             }
 
             using var hmac = new HMACSHA512();

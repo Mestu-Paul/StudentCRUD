@@ -12,7 +12,7 @@ namespace D.Application.Controllers
     [Route("api/[controller]")]
 
 
-    [Authorize]
+    [Authorize(Roles = "admin,student")]
     public class StudentController : ControllerBase
     {
         private readonly IStudentLogic _studentLogic;

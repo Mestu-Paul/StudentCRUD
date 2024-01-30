@@ -16,7 +16,7 @@ namespace C.BusinessLogic.Logics
             _accountDataAccess = accountDataAccess;
         }
 
-        public async Task<List<User>> GetUsersAsync()
+        public async Task<List<UserDTO>> GetUsersAsync()
         {
             return await _accountDataAccess.GetUsersAsync();
         }

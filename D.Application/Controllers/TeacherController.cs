@@ -12,7 +12,7 @@ namespace D.Application.Controllers
     [Route("api/[controller]")]
 
 
-    [Authorize]
+    [Authorize(Roles = "admin,teacher")]
     public class TeacherController : ControllerBase
     {
         private readonly ITeacherLogic _teacherLogic;
@@ -21,7 +21,7 @@ namespace D.Application.Controllers
             _teacherLogic = teacherLogic;
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -50,7 +50,7 @@ namespace D.Application.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody]Teacher teacher)
         {
             try

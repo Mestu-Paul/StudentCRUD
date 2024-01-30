@@ -20,7 +20,7 @@ namespace D.Application.Controllers
             _tokenService = tokenService;
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpGet("users")]
         public async Task<IActionResult> GetUsers()
         {
@@ -49,12 +49,8 @@ namespace D.Application.Controllers
                 User user = await _accountLogic.Login(userForm.Username, userForm.Password);
                 if (user != null)
                 {
-                    UserDTO userDTO = new UserDTO
-                    {
-                        Username = userForm.Username,
-                        Token = _tokenService.CreateToken(user)
-                    };
-                    return Ok(userDTO);
+                    string token = _tokenService.CreateToken(user);
+                    return Ok(token);
                 }
                 return BadRequest("Invalid user");
             }
@@ -65,13 +61,13 @@ namespace D.Application.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpPut("updateRole")]
-        public async Task<IActionResult> UpdateUserRole(string username, string newRole)
+        public async Task<IActionResult> UpdateUserRole([FromBody] UserForm userForm)
         {
             try
             {
-                await _accountLogic.UpdateUserRole(username, newRole);
+                await _accountLogic.UpdateUserRole(userForm.Username, userForm.Role);
                 return Ok();
             }
             catch (Exception e)
@@ -82,7 +78,7 @@ namespace D.Application.Controllers
 
 
         [Authorize]
-        [HttpDelete("delete")]
+        [HttpDelete("delete/{username}")]
         public async Task<IActionResult> DeleteUser(string username)
         {
             try
