@@ -1,5 +1,4 @@
 ﻿using A.Contracts.DBSettings;
-using A.Contracts.Models;
 using B.DatabaseAccess.IDataAccess;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
@@ -7,6 +6,7 @@ using MongoDB.Driver;
 using System.Security.Cryptography;
 using System.Text;
 using A.Contracts.DataTransferObjects;
+using A.Contracts.Entities;
 
 namespace B.DatabaseAccess.DataAccess
 {
@@ -20,6 +20,7 @@ namespace B.DatabaseAccess.DataAccess
             MongoClient client = new MongoClient(mongoDbSetting.Value.ConnectionStrings);
             IMongoDatabase database = client.GetDatabase(mongoDbSetting.Value.DatabaseName);
             _userCollection = database.GetCollection<User>(collectionName);
+
         }
 
         public async Task<List<UserDTO>> GetUsersAsync()
@@ -33,6 +34,11 @@ namespace B.DatabaseAccess.DataAccess
             // Projecting the username and role properties into tuples
             List<UserDTO> result = users.Select(user => new UserDTO(user["userName"].AsString, user["role"].AsString)).ToList();
             return result;
+        }
+
+        public async Task<User> GetUserAsync(string username)
+        {
+            return await _userCollection.Find(x => x.UserName == username).FirstOrDefaultAsync();
         }
 
         public async Task CreateNewUser(string username, string password, string role)
@@ -63,13 +69,6 @@ namespace B.DatabaseAccess.DataAccess
             return await _userCollection.Find(filter).FirstOrDefaultAsync();
         }
 
-        public async Task<bool> DeleteUser(string username)
-        {
-            var filter = Builders<User>.Filter.Eq(u => u.UserName, username);
-            var deleteResult = await _userCollection.DeleteOneAsync(filter);
-
-            return deleteResult.DeletedCount > 0;
-        }
 
         public async Task UpdateUserRole(string username, string newRole)
         {
@@ -83,6 +82,12 @@ namespace B.DatabaseAccess.DataAccess
 
             user.Role = newRole;
             await _userCollection.ReplaceOneAsync(filter, user);
+        }
+
+        public async Task<bool> DeleteUserAsync(string username)
+        {
+            var result = await _userCollection.DeleteOneAsync(x => x.UserName == username);
+            return result.DeletedCount > 0;
         }
     }
 }

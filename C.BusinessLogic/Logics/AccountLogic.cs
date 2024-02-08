@@ -1,19 +1,24 @@
 ﻿using A.Contracts.DataTransferObjects;
-using A.Contracts.Models;
 using B.DatabaseAccess.IDataAccess;
 using C.BusinessLogic.ILoigcs;
 using System.Security.Cryptography;
 using System.Text;
+using C.BusinessLogic.Services;
+using A.Contracts.Entities;
 
 namespace C.BusinessLogic.Logics
 {
     public class AccountLogic : IAccountLogic
     {
         private readonly IAccountDataAccess _accountDataAccess;
+        private readonly ITokenService _tokenService;
+        private readonly ISharedDataAccess _sharedDataAccess;
 
-        public AccountLogic(IAccountDataAccess accountDataAccess)
+        public AccountLogic(IAccountDataAccess accountDataAccess, ITokenService tokenService, ISharedDataAccess sharedDataAccess)
         {
             _accountDataAccess = accountDataAccess;
+            _tokenService = tokenService;
+            _sharedDataAccess = sharedDataAccess;
         }
 
         public async Task<List<UserDTO>> GetUsersAsync()
@@ -24,7 +29,7 @@ namespace C.BusinessLogic.Logics
         public async Task CreateUser(string username, string password, string role)
         {
             await _accountDataAccess.CreateNewUser(username, password, role.ToLower());
-            
+            await _sharedDataAccess.CreateNewUser(username,role.ToLower());
             return;
         }
 
@@ -36,10 +41,10 @@ namespace C.BusinessLogic.Logics
 
         public async Task<bool> DeleteUser(string username)
         {
-            return await _accountDataAccess.DeleteUser(username);
+            return await _sharedDataAccess.DeleteUserAsync(username);
         }
 
-        public async Task<User> Login(string username, string password)
+        public async Task<String> Login(string username, string password)
         {
             User user = await _accountDataAccess.Login(username, password);
             if (user == null)
@@ -54,7 +59,7 @@ namespace C.BusinessLogic.Logics
                     throw new Exception("Invalid password");
             }
 
-            return user;
+            return _tokenService.CreateToken(user);
         }
     }
 }

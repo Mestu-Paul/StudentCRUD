@@ -1,4 +1,5 @@
-﻿using A.Contracts.Models;
+﻿using A.Contracts.Entities;
+using A.Contracts.Models;
 using C.BusinessLogic.ILoigcs;
 using D.Application.Contracts;
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +26,8 @@ namespace D.Application.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateNewStudent([FromBody]Student student)
         {
+            var username = HttpContext.Items["Username"] as string;
+            student.Username = username;
             try
             {
                 await _studentLogic.CreateNewStudentAsync(student);
@@ -36,7 +39,7 @@ namespace D.Application.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest("bad request"+e.Message);
+                return BadRequest(e.Message);
             }
         }
         
@@ -54,6 +57,22 @@ namespace D.Application.Controllers
             }
         }
 
+        [HttpGet("userDetails")]
+        public async Task<IActionResult> GetStudentDetails([FromQuery]string? username)
+        {
+            try
+            {
+                if(username == null)
+                    username = HttpContext.Items["Username"] as string;
+                Student student = await _studentLogic.GetStudent(username);
+                return Ok(student);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"Something wrong : {e.Message}");
+            }
+        }
+
 
 
         [HttpGet("filter")]
@@ -61,7 +80,8 @@ namespace D.Application.Controllers
         {
             try
             {
-                FilterResponse<Student> filterResponse = new FilterResponse<Student>(await _studentLogic.GetFilteredStudentsAsync(studentFilterParameters), studentFilterParameters.PageSize);
+                FilterResponse<Student> filterResponse = new FilterResponse<Student>(await _studentLogic.GetFilteredStudentsAsync(studentFilterParameters)
+                    , studentFilterParameters.PageSize);
                 return Ok(filterResponse);
             }
             catch (Exception e)
@@ -71,12 +91,21 @@ namespace D.Application.Controllers
              
         }
 
-        [HttpPut("update/{id}")]
-        public async Task<IActionResult> UpdateStudent(string id, [FromBody]UpdateStudent student)
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateStudent([FromBody]UpdateStudent student, [FromQuery]string? username)
         {
+            if (username == null)
+            {
+                return NotFound();
+            }
+            var token_username = HttpContext.Items["Username"] as string;
+            if (username != token_username)
+                return BadRequest("You can not modified others information");
+
+            student.Username = username;
             try
             {
-                await _studentLogic.UpdateStudentAsync(id, student);
+                await _studentLogic.UpdateStudentAsync(student);
                 return Ok("Updated students information");
             }
             catch (FormatException e)
@@ -89,16 +118,20 @@ namespace D.Application.Controllers
             }
         }
 
-        [HttpPatch("partialUpdate/{id}")]
-        public async Task<IActionResult> PartialUpdateAsync(string id, [FromBody] JsonPatchDocument<Student> patchDocument)
+        [HttpPatch("partialUpdate")]
+        public async Task<IActionResult> PartialUpdateAsync([FromBody] JsonPatchDocument<Student> patchDocument, [FromQuery] string? username)
         {
-            if (string.IsNullOrEmpty(id) || patchDocument == null)
+            if (username == null)
             {
-                return BadRequest("Invalid ID or payload");
+                return NotFound();
             }
+            var token_username = HttpContext.Items["Username"] as string;
+            if (username != token_username)
+                return BadRequest("You can not modified others information");
+
             try
             {
-                await _studentLogic.PartialUpdateAsync(id, patchDocument);
+                await _studentLogic.PartialUpdateAsync(username, patchDocument);
                 return Ok();
             }
             catch (FormatException e)

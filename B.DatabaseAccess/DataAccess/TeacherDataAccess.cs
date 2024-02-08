@@ -1,4 +1,5 @@
 ﻿using A.Contracts.DBSettings;
+using A.Contracts.Entities;
 using A.Contracts.Models;
 using B.DatabaseAccess.IDataAccess;
 using Microsoft.AspNetCore.JsonPatch;
@@ -64,6 +65,16 @@ namespace B.DatabaseAccess.DataAccess
             return await _teachersCollection.Find(new BsonDocument()).ToListAsync();
         }
 
+        public async Task<Teacher> GetTeacherAsync(string username)
+        {
+            return await _teachersCollection.Find(x => x.Username == username).FirstOrDefaultAsync();
+        }
+
+        public async Task<Teacher> GetTeacherByIdAsync(string id)
+        {
+            return await _teachersCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        }
+
         public async Task<List<Teacher>> GetFilteredTeachersAsync(TeacherFilterParameters teacherFilterParameters)
         {
             var combinedFilter = GetCombinedFilter(teacherFilterParameters);
@@ -87,11 +98,10 @@ namespace B.DatabaseAccess.DataAccess
 
         public async Task<bool> DeleteTeacherAsync(string id)
         {
-            var filter = Builders<Teacher>.Filter.Eq("Id", id);
-            var deleteResult = await _teachersCollection.DeleteOneAsync(filter);
-
-            return deleteResult.DeletedCount > 0;
+            var result = await _teachersCollection.DeleteOneAsync(x => x.Id == id);
+            return result.DeletedCount > 0;
         }
+
 
         public async Task<bool> UpdateTeacherAsync(string id, Teacher teacher)
         {

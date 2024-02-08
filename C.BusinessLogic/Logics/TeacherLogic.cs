@@ -1,4 +1,6 @@
-﻿using A.Contracts.Models;
+﻿using A.Contracts.Entities;
+using A.Contracts.Models;
+using B.DatabaseAccess.DataAccess;
 using B.DatabaseAccess.IDataAccess;
 using C.BusinessLogic.ILoigcs;
 using Microsoft.AspNetCore.JsonPatch;
@@ -8,9 +10,12 @@ namespace C.BusinessLogic.Logics
     public class TeacherLogic : ITeacherLogic
     {
         private readonly ITeacherDataAccess _teacherDataAccess;
-        public TeacherLogic(ITeacherDataAccess teacherDataAccess)
+        private readonly ISharedDataAccess _sharedDataAccess;
+
+        public TeacherLogic(ITeacherDataAccess teacherDataAccess, ISharedDataAccess sharedDataAccess)
         {
             _teacherDataAccess = teacherDataAccess;
+            _sharedDataAccess = sharedDataAccess;
         }
 
         public async Task CreateNewTeacherAsync(Teacher teacher)
@@ -32,9 +37,15 @@ namespace C.BusinessLogic.Logics
             return Tuple.Create(teachers, count);
         }
 
+        public async Task<Teacher> GetTeacherAsync(string username)
+        {
+            return await _teacherDataAccess.GetTeacherAsync(username);
+        }
+
         public async Task<bool> DeleteTeacherAsync(string id)
         {
-            return await _teacherDataAccess.DeleteTeacherAsync(id);
+            var student = await _teacherDataAccess.GetTeacherByIdAsync(id);
+            return await _sharedDataAccess.DeleteUserAsync(student.Username);
         }
 
         public async Task<bool> UpdateTeacherAsync(string id, Teacher teacher)

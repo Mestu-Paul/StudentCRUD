@@ -1,7 +1,6 @@
-﻿using A.Contracts.DataTransferObjects;
-using A.Contracts.Models;
+﻿using A.Contracts.Models;
 using C.BusinessLogic.ILoigcs;
-using D.Application.Services;
+using C.BusinessLogic.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,18 +40,13 @@ namespace D.Application.Controllers
             }
         }
 
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserForm userForm)
         {
             try
             {
-                User user = await _accountLogic.Login(userForm.Username, userForm.Password);
-                if (user != null)
-                {
-                    string token = _tokenService.CreateToken(user);
-                    return Ok(token);
-                }
-                return BadRequest("Invalid user");
+                return Ok(await _accountLogic.Login(userForm.Username, userForm.Password));
             }
             catch (Exception e)
             {
@@ -77,7 +71,7 @@ namespace D.Application.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpDelete("delete/{username}")]
         public async Task<IActionResult> DeleteUser(string username)
         {

@@ -2,7 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 
-namespace A.Contracts.Models
+namespace A.Contracts.Entities
 {
     [BsonIgnoreExtraElements]
     public class Teacher
@@ -10,6 +10,9 @@ namespace A.Contracts.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; } = null!;
+
+        [BsonElement("username")]
+        public string Username { get; set; }
 
         [BsonElement("teacher_id")]
         public string TeacherId { get; set; }
@@ -24,8 +27,8 @@ namespace A.Contracts.Models
         public string Gender { get; set; }
 
         [BsonElement("joinedAt")]
-        public DateOnly JoinedAt { get; set; }
-         
+        public DateOnly? JoinedAt { get; set; }
+
         [BsonElement("department")]
         public string Department { get; set; }
 

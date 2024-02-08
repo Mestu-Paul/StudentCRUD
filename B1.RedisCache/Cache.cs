@@ -9,8 +9,16 @@ namespace B1.RedisCache
 
         public Cache()
         {
-            var redis = ConnectionMultiplexer.Connect("localhost:6379");
-            _cacheDb = redis.GetDatabase();
+            try
+            {
+                var redis = ConnectionMultiplexer.Connect("localhost:6379");
+                _cacheDb = redis.GetDatabase();
+            }
+            catch (Exception e)
+            {
+                 // throw new RedisConnectionException(ConnectionFailureType.UnableToConnect, "Can not connect with cache");
+            }
+            
         }
         public async Task<T> GetData<T>(string key)
         {

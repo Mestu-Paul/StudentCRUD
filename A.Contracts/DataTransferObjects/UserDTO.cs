@@ -10,5 +10,4 @@
         public string username;
         public string role;
     }
-
 }

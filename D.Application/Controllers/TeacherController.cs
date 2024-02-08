@@ -1,4 +1,5 @@
-﻿using A.Contracts.Models;
+﻿using A.Contracts.Entities;
+using A.Contracts.Models;
 using C.BusinessLogic.ILoigcs;
 using C.BusinessLogic.Logics;
 using D.Application.Contracts;
@@ -47,6 +48,21 @@ namespace D.Application.Controllers
             catch (Exception e)
             {
                 return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("userDetails")]
+        public async Task<IActionResult> GetStudentDetails()
+        {
+            try
+            {
+                var username = HttpContext.Items["Username"] as string;
+                Teacher teacher = await _teacherLogic.GetTeacherAsync(username);
+                return Ok(teacher);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"Something wrong : {e.Message}");
             }
         }
 

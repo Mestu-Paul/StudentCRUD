@@ -1,4 +1,5 @@
-﻿using A.Contracts.Models;
+﻿using A.Contracts.Entities;
+using A.Contracts.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using System.Reflection;
 
@@ -9,10 +10,12 @@ namespace C.BusinessLogic.ILoigcs
         Task CreateNewStudentAsync(Student student);
         Task<List<Student>> GetAllStudentsAsync();
 
+        Task<Student> GetStudent(string username);
+
         Task<Tuple<List<Student>, long>> GetFilteredStudentsAsync(StudentFilterParameters studentFilterParameters);
 
         Task<bool> DeleteStudentAsync(string id);
-        Task<bool> UpdateStudentAsync(string id, UpdateStudent student);
-        Task<bool> PartialUpdateAsync(string id, JsonPatchDocument<Student> patchDocument);
+        Task<bool> UpdateStudentAsync(UpdateStudent student);
+        Task<bool> PartialUpdateAsync(string username, JsonPatchDocument<Student> patchDocument);
     }
 }

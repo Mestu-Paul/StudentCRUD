@@ -1,10 +1,10 @@
-﻿using A.Contracts.Models;
+﻿using A.Contracts.Entities;
+using A.Contracts.Models;
 using B.DatabaseAccess.IDataAccess;
 using B1.RedisCache;
 using C.BusinessLogic.ILoigcs;
+using MassTransit;
 using Microsoft.AspNetCore.JsonPatch;
-using MongoDB.Driver;
-using StackExchange.Redis;
 
 namespace C.BusinessLogic.Logics
 {
@@ -12,11 +12,16 @@ namespace C.BusinessLogic.Logics
     {
         private readonly IStudentDataAccess _studentsService;
         private readonly ICache _redisCache;
+        private readonly ISharedDataAccess _sharedDataAccess;
+        private readonly IBus _bus;
+        private readonly IAccountDataAccess _accountDataAccess;
 
-        public StudentLogic(IStudentDataAccess studentsService, ICache redisCache)
+        public StudentLogic(IStudentDataAccess studentsService, ICache redisCache, ISharedDataAccess sharedDataAccess, IBus bus)
         {
             _studentsService = studentsService;
             _redisCache = redisCache;
+            _sharedDataAccess = sharedDataAccess;
+            _bus = bus;
         }
 
         private string GenerateCacheKey(StudentFilterParameters studentFilterParameters)
@@ -34,7 +39,7 @@ namespace C.BusinessLogic.Logics
         public async Task CreateNewStudentAsync(Student student)
         {
             await _studentsService.CreateNewStudentAsync(student);
-            _redisCache.ClearCache();
+            await _redisCache.ClearCache();
             return;
         }
         
@@ -53,40 +58,56 @@ namespace C.BusinessLogic.Logics
             return students;
         }
 
+        public  async Task<Student> GetStudent(string username)
+        {
+            return await _studentsService.GetStudentAsync(username);
+        }
+
         public async Task<Tuple<List<Student>,long>> GetFilteredStudentsAsync(StudentFilterParameters studentFilterParameters)
         {
-            var cacheKey = GenerateCacheKey(studentFilterParameters);
-            var cacheData = await _redisCache.GetData<Tuple<List<Student>, long>>(cacheKey);
-
-            if (cacheData != null )
+            try
             {
-                return cacheData;
+                var cacheKey = GenerateCacheKey(studentFilterParameters);
+                var cacheData = await _redisCache.GetData<Tuple<List<Student>, long>>(cacheKey);
+
+                if (cacheData != null)
+                {
+                    return cacheData;
+                }
+
+                List<Student> students = await _studentsService.GetFilteredStudentsAsync(studentFilterParameters);
+                long count = await _studentsService.GetFilteredStudentsCountAsync(studentFilterParameters);
+
+                _redisCache.SetData(cacheKey, Tuple.Create(students, count), DateTimeOffset.Now.AddSeconds(60));
+
+                return Tuple.Create(students, count);
             }
+            catch (Exception e)
+            {
+                List<Student> students = await _studentsService.GetFilteredStudentsAsync(studentFilterParameters);
+                long count = await _studentsService.GetFilteredStudentsCountAsync(studentFilterParameters);
 
-            List<Student> students = await _studentsService.GetFilteredStudentsAsync(studentFilterParameters);
-            long count = await _studentsService.GetFilteredStudentsCountAsync(studentFilterParameters);
-
-            _redisCache.SetData(cacheKey, Tuple.Create(students, count), DateTimeOffset.Now.AddSeconds(60));
-
-            return Tuple.Create(students, count);
+                return Tuple.Create(students, count);
+            }
+            
         }
 
-        public async Task<bool> PartialUpdateAsync(string id, JsonPatchDocument<Student> patchDocument)
+        public async Task<bool> PartialUpdateAsync(string username, JsonPatchDocument<Student> patchDocument)
         {
             _redisCache.ClearCache();
-            return await _studentsService.PartialUpdateAsync(id,  patchDocument); ;
+            return await _studentsService.PartialUpdateAsync(username,  patchDocument); ;
         }
 
-        public async Task<bool> UpdateStudentAsync(string id, UpdateStudent student)
+        public async Task<bool> UpdateStudentAsync(UpdateStudent student)
         {
-            _redisCache.ClearCache();
-            return await _studentsService.UpdateStudentAsync(id, student); ;
+            await _bus.Publish(student);
+            return true;
         }
 
         public async Task<bool> DeleteStudentAsync(string id)
         {
-            _redisCache.ClearCache();
-            return await _studentsService.DeleteStudentAsync(id); ;
+            var student = await _studentsService.GetStudentByIdAsync(id);
+            return await _sharedDataAccess.DeleteUserAsync(student.Username);
         }
     }
 }

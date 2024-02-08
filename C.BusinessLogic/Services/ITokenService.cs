@@ -1,6 +1,6 @@
-﻿using A.Contracts.Models;
+﻿using A.Contracts.Entities;
 
-namespace D.Application.Services
+namespace C.BusinessLogic.Services
 {
     public interface ITokenService
     {

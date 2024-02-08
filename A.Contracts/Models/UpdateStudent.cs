@@ -4,23 +4,23 @@ namespace A.Contracts.Models
 {
     public class UpdateStudent
     {
-
-        [BsonElement("name")]
+        public string Username { get; set; }
+        public string StudentId { get; set; }
+        
+        public string Gender { get; set; }
+        
+        public string BloodGroup { get; set; }
+        
         public string Name { get; set; }
-
-        [BsonElement("department")]
+        
         public string Department { get; set; }
-
-        [BsonElement("session")]
+        
         public string Session { get; set; }
-
-        [BsonElement("phone")]
+        
         public string Phone { get; set; }
-
-        [BsonElement("last_donated_at")]
-        public string LastDonatedAt { get; set; }
-
-        [BsonElement("address")]
+        
+        public DateTime? LastDonatedAt { get; set; }
+        
         public string Address { get; set; }
     }
 }

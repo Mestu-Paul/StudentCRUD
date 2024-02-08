@@ -7,12 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.1.3" />
+    <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="8.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\B.DatabaseAccess\B.DatabaseAccess.csproj" />
     <ProjectReference Include="..\B1.RedisCache\B1.RedisCache.csproj" />
+    <ProjectReference Include="..\RabbitMQ\RabbitMQ.csproj" />
   </ItemGroup>
 
 </Project>

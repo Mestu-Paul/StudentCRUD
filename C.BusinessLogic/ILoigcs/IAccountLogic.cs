@@ -9,6 +9,6 @@ namespace C.BusinessLogic.ILoigcs
         Task CreateUser(string username, string password, string role);
         Task UpdateUserRole(string username, string newRole);
         Task<bool> DeleteUser(string username);
-        Task<User> Login(string username, string password);
+        Task<String> Login(string username, string password);
     }
 }

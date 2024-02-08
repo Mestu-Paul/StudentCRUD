@@ -1,7 +1,9 @@
 ﻿using A.Contracts.DBSettings;
+using A.Contracts.Entities;
 using A.Contracts.Models;
 using B.DatabaseAccess.IDataAccess;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -54,8 +56,7 @@ namespace B.DatabaseAccess.DataAccess
 
         public async Task CreateNewStudentAsync(Student student)
         {
-            student.CreatedAt = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"); ;
-            student.LastUpdatedAt = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
+            student.LastUpdatedAt = DateTime.UtcNow;
             await _studentsCollection.InsertOneAsync(student);
             return;
         }
@@ -64,6 +65,18 @@ namespace B.DatabaseAccess.DataAccess
         {
             return await _studentsCollection.Find(new BsonDocument()).ToListAsync();
         }
+
+        public async Task<Student> GetStudentAsync(string username)
+        {
+            var result = await _studentsCollection.Find(x => x.Username == username).FirstOrDefaultAsync();
+            return result;
+        }
+
+        public async Task<Student> GetStudentByIdAsync(string id)
+        {
+            return await _studentsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        }
+
 
         public async Task<List<Student>> GetFilteredStudentsAsync(StudentFilterParameters studentFilterParameters)
         {
@@ -87,28 +100,36 @@ namespace B.DatabaseAccess.DataAccess
             return await _studentsCollection.Find(combinedFilter).CountDocumentsAsync();
         }
 
-        public async Task<bool> UpdateStudentAsync(string id, UpdateStudent student)
+        public async Task<bool> DeleteStudentAsync(string id)
         {
-            var filter = Builders<Student>.Filter.Eq("Id", id);
+            var result = await _studentsCollection.DeleteOneAsync(x => x.Id == id);
+            return result.DeletedCount > 0;
+        }
+
+        public async Task<bool> UpdateStudentAsync(UpdateStudent student)
+        {
+            var filter = Builders<Student>.Filter.Eq("Username", student.Username);
             var updateDefinition = Builders<Student>.Update
+                .Set(s => s.StudentId, student.StudentId)
+                .Set(s => s.Gender, student.Gender)
+                .Set(s => s.BloodGroup, student.BloodGroup)
                 .Set(s => s.Name, student.Name)
                 .Set(s => s.Department, student.Department)
                 .Set(s => s.Session, student.Session)
                 .Set(s => s.Phone, student.Phone)
                 .Set(s => s.LastDonatedAt, student.LastDonatedAt)
                 .Set(s => s.Address, student.Address)
-                .Set(s => s.LastUpdatedAt, DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"))
-                ;
+                .Set(s => s.LastUpdatedAt, DateTime.UtcNow);
 
             var updateResult = await _studentsCollection.UpdateOneAsync(filter, updateDefinition);
             return updateResult.ModifiedCount > 0;
         }
 
-        public async Task<bool> PartialUpdateAsync(string id, JsonPatchDocument<Student> patchDocument)
+        public async Task<bool> PartialUpdateAsync(string username, JsonPatchDocument<Student> patchDocument)
         {
-            var filter = Builders<Student>.Filter.Eq("Id", id);
+            var filter = Builders<Student>.Filter.Eq("Username", username);
             var student = await _studentsCollection.Find(filter).FirstOrDefaultAsync();
-            student.LastUpdatedAt = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
+            student.LastUpdatedAt = DateTime.UtcNow;
 
             if (student == null)
             {
@@ -127,13 +148,5 @@ namespace B.DatabaseAccess.DataAccess
             return result.ModifiedCount > 0;
         }
 
-
-        public async Task<bool> DeleteStudentAsync(string id)
-        {
-            var filter = Builders<Student>.Filter.Eq("Id", id);
-            var deleteResult = await _studentsCollection.DeleteOneAsync(filter);
-
-            return deleteResult.DeletedCount > 0;
-        }
     }
 }

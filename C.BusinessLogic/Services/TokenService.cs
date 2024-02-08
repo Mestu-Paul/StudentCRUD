@@ -1,13 +1,13 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using System.Text;
-using A.Contracts.Models;
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
-using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
+using A.Contracts.Entities;
 
-namespace D.Application.Services
+namespace C.BusinessLogic.Services
 {
-    public class TokenService : ITokenService
+    public class TokenService: ITokenService
     {
         private readonly SymmetricSecurityKey _key;
         public TokenService(IConfiguration config)
