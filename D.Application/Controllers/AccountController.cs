@@ -26,6 +26,13 @@ namespace D.Application.Controllers
             return Ok(await _accountLogic.GetUsersAsync());
         }
 
+        [Authorize(Roles = "admin")]
+        [HttpGet("users/filtered")]
+        public async Task<IActionResult> GetFilteredUsers([FromQuery]int pageNumber=1)
+        {
+            return Ok(await _accountLogic.GetFilteredUsersAsync(pageNumber));
+        }
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]UserForm userForm)
         {

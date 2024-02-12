@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "A.Contracts", "A.Contracts\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "B1.RedisCache", "B1.RedisCache\B1.RedisCache.csproj", "{83C7443A-BB2D-42FF-A29E-F736DCCE511A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMQ", "RabbitMQ\RabbitMQ.csproj", "{0FAD1415-7487-4FC3-B023-F8242C4BAE0E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageProducer", "MessageProducer\MessageProducer.csproj", "{A7CA5559-4558-4435-9E81-31888B615BC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{83C7443A-BB2D-42FF-A29E-F736DCCE511A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83C7443A-BB2D-42FF-A29E-F736DCCE511A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83C7443A-BB2D-42FF-A29E-F736DCCE511A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0FAD1415-7487-4FC3-B023-F8242C4BAE0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0FAD1415-7487-4FC3-B023-F8242C4BAE0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0FAD1415-7487-4FC3-B023-F8242C4BAE0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0FAD1415-7487-4FC3-B023-F8242C4BAE0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7CA5559-4558-4435-9E81-31888B615BC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7CA5559-4558-4435-9E81-31888B615BC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7CA5559-4558-4435-9E81-31888B615BC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7CA5559-4558-4435-9E81-31888B615BC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -81,12 +81,17 @@ namespace D.Application.Controllers
             
         }
 
-        [HttpPut("update/{id}")]
-        public async Task<IActionResult> UpdateStudent(string id, [FromBody] Teacher teacher)
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateTeacher([FromQuery]string username, [FromBody] Teacher teacher)
         {
+            if (string.IsNullOrEmpty(username))
+            {
+                return BadRequest("Invalid username");
+            }
             try
             {
-                bool isSuccess = await _teacherLogic.UpdateTeacherAsync(id, teacher);
+                teacher.Username = username;
+                bool isSuccess = await _teacherLogic.UpdateTeacherAsync(teacher);
                 if(isSuccess) 
                     return Ok();
                 return NotFound();

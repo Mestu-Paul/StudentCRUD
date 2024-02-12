@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using C.BusinessLogic.Services;
 using A.Contracts.Entities;
+using A.Contracts.Models;
 
 namespace C.BusinessLogic.Logics
 {
@@ -26,10 +27,21 @@ namespace C.BusinessLogic.Logics
             return await _accountDataAccess.GetUsersAsync();
         }
 
+        public async Task<Tuple<List<UserDTO>, long>> GetFilteredUsersAsync(int pageNumber)
+        {
+            int pageSize = 20;
+            List<UserDTO> students = await _accountDataAccess.GetFilteredUsersAsync(pageNumber);
+            long count = await _accountDataAccess.GetUsersCount();
+
+            count = (count + pageSize - 1) / pageSize;
+
+            return Tuple.Create(students, count);
+        }
+
         public async Task CreateUser(string username, string password, string role)
         {
-            await _accountDataAccess.CreateNewUser(username, password, role.ToLower());
-            await _sharedDataAccess.CreateNewUser(username,role.ToLower());
+            await _accountDataAccess.CreateNewUser(username.ToLower(), password, role.ToLower());
+            await _sharedDataAccess.CreateNewUser(username.ToLower(),role.ToLower());
             return;
         }
 

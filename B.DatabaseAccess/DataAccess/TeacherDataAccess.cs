@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using Newtonsoft.Json;
 
 namespace B.DatabaseAccess.DataAccess
 {
@@ -103,11 +102,13 @@ namespace B.DatabaseAccess.DataAccess
         }
 
 
-        public async Task<bool> UpdateTeacherAsync(string id, Teacher teacher)
+        public async Task<bool> UpdateTeacherAsync( Teacher teacher)
         {
-            var filter = Builders<Teacher>.Filter.Eq("Id", id);
+            var filter = Builders<Teacher>.Filter.Eq("Username", teacher.Username);
             var updateDefinition = Builders<Teacher>.Update
                     .Set(s => s.Name, teacher.Name)
+                    .Set(s => s.Gender, teacher.Gender)
+                    .Set(s => s.JoinedAt, teacher.JoinedAt)
                     .Set(s => s.Department, teacher.Department)
                     .Set(s => s.Phone, teacher.Phone)
                     .Set(s => s.Education, teacher.Education)

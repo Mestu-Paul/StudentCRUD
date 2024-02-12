@@ -42,7 +42,7 @@ namespace A.Contracts.Entities
         public string Phone { get; set; }
 
         [BsonElement("last_donated_at")]
-        public DateTime? LastDonatedAt { get; set; }
+        public DateOnly? LastDonatedAt { get; set; }
 
         [BsonElement("address")]
         public string Address { get; set; }

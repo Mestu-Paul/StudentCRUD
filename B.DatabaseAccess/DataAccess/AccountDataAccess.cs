@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using A.Contracts.DataTransferObjects;
 using A.Contracts.Entities;
+using A.Contracts.Models;
 
 namespace B.DatabaseAccess.DataAccess
 {
@@ -88,6 +89,27 @@ namespace B.DatabaseAccess.DataAccess
         {
             var result = await _userCollection.DeleteOneAsync(x => x.UserName == username);
             return result.DeletedCount > 0;
+        }
+
+        public async Task<long> GetUsersCount()
+        {
+            return await _userCollection.EstimatedDocumentCountAsync();
+        }
+
+        public async Task<List<UserDTO>> GetFilteredUsersAsync(int pageNumber)
+        {
+            var projection = Builders<User>.Projection.Include(u => u.UserName).Include(u => u.Role);
+            int pageSize = 20;
+            int skipCount = (pageNumber -1)* pageSize;
+            var users = await _userCollection
+                .Find(Builders<User>.Filter.Empty)
+                .Project(projection)
+                .Skip(skipCount)
+                .Limit(pageSize)
+                .ToListAsync();
+
+            List<UserDTO> result = users.Select(user => new UserDTO(user["userName"].AsString, user["role"].AsString)).ToList();
+            return result;
         }
     }
 }

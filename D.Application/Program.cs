@@ -1,5 +1,4 @@
 using A.Contracts.DBSettings;
-using System.Runtime;
 using System.Text;
 using B.DatabaseAccess.DataAccess;
 using B.DatabaseAccess.IDataAccess;
@@ -12,7 +11,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using D.Application.Middleware;
 using MassTransit;
-using RabbitMQ.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +26,10 @@ builder.Services.AddSingleton<ITeacherLogic, TeacherLogic>();
 builder.Services.AddSingleton<IAccountDataAccess,AccountDataAccess>();
 builder.Services.AddSingleton<IAccountLogic,AccountLogic>();
 builder.Services.AddSingleton<ISharedDataAccess, SharedDataAccess>();
+builder.Services.AddSingleton<IMessageDataAccess,MessageDataAccess>();
+builder.Services.AddSingleton<IMessageLogic,MessageLogic>();
 builder.Services.AddSingleton<ICache, Cache>();
+
 builder.Services.AddScoped<StudentUpdateConsumer>();
 
 builder.Services.AddCors();
@@ -57,7 +58,7 @@ builder.Services.AddMassTransit(config =>
     config.UsingRabbitMq((ctx, cfg) =>
     {
         cfg.Host(builder.Configuration["EventBusSettings:RabbitMQ"]);
-        cfg.ReceiveEndpoint(EventBus.UpdateStudentQueue, c =>
+        cfg.ReceiveEndpoint("UpdateStudent-queue", c =>
         {
             c.ConfigureConsumer< StudentUpdateConsumer>(ctx);
         });
@@ -85,7 +86,11 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.UseMiddleware<JwtMiddleware>();
+
+app.UseWebSockets();
+
 // permit the host http://localhost:4200
 app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 

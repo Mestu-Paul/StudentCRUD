@@ -14,7 +14,7 @@ namespace B.DatabaseAccess.IDataAccess
 
         Task<Teacher> GetTeacherByIdAsync(string id);
 
-        Task<bool> UpdateTeacherAsync(string id, Teacher teacher);
+        Task<bool> UpdateTeacherAsync(Teacher teacher);
 
         Task<bool> PartialUpdateAsync(string id, JsonPatchDocument<Teacher> patchDocument);
 

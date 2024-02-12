@@ -48,9 +48,9 @@ namespace C.BusinessLogic.Logics
             return await _sharedDataAccess.DeleteUserAsync(student.Username);
         }
 
-        public async Task<bool> UpdateTeacherAsync(string id, Teacher teacher)
+        public async Task<bool> UpdateTeacherAsync(Teacher teacher)
         {
-            return await _teacherDataAccess.UpdateTeacherAsync(id, teacher);
+            return await _teacherDataAccess.UpdateTeacherAsync(teacher);
         }
 
         public async Task<bool> PartialUpdateAsync(string id, JsonPatchDocument<Teacher> patchDocument)

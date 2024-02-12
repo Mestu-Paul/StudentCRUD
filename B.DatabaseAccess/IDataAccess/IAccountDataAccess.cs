@@ -16,5 +16,8 @@ namespace B.DatabaseAccess.IDataAccess
         Task UpdateUserRole(string username, string newRole);
 
         Task<bool> DeleteUserAsync(string username);
+
+        Task<List<UserDTO>> GetFilteredUsersAsync(int pageNumber);
+        Task<long> GetUsersCount();
     }
 }

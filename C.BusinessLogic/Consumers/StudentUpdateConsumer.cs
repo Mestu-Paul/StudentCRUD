@@ -22,12 +22,13 @@ namespace C.BusinessLogic.Consumers
             _logger = logger;
             _redisCache = redisCache;
         }
+
         public async Task Consume(ConsumeContext<UpdateStudent> context)
         {
             UpdateStudent student = context.Message;
             _logger.LogInformation($"-------------------- waiting to update {student.Username}");
 
-            await Task.Delay(TimeSpan.FromSeconds(30));
+           // await Task.Delay(TimeSpan.FromSeconds(30));
 
             _logger.LogInformation("-------------------- update started");
 

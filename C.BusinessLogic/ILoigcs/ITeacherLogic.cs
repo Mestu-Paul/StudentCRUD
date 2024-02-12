@@ -13,7 +13,7 @@ namespace C.BusinessLogic.ILoigcs
         Task<Teacher> GetTeacherAsync(string username);
 
         Task<bool> DeleteTeacherAsync(string id);
-        Task<bool> UpdateTeacherAsync(string id, Teacher teacher);
+        Task<bool> UpdateTeacherAsync(Teacher teacher);
         Task<bool> PartialUpdateAsync(string id, JsonPatchDocument<Teacher> patchDocument);
     }
 }

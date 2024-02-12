@@ -19,7 +19,7 @@ namespace A.Contracts.Models
         
         public string Phone { get; set; }
         
-        public DateTime? LastDonatedAt { get; set; }
+        public DateOnly? LastDonatedAt { get; set; }
         
         public string Address { get; set; }
     }

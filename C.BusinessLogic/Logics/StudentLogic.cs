@@ -13,15 +13,13 @@ namespace C.BusinessLogic.Logics
         private readonly IStudentDataAccess _studentsService;
         private readonly ICache _redisCache;
         private readonly ISharedDataAccess _sharedDataAccess;
-        private readonly IBus _bus;
         private readonly IAccountDataAccess _accountDataAccess;
 
-        public StudentLogic(IStudentDataAccess studentsService, ICache redisCache, ISharedDataAccess sharedDataAccess, IBus bus)
+        public StudentLogic(IStudentDataAccess studentsService, ICache redisCache, ISharedDataAccess sharedDataAccess)
         {
             _studentsService = studentsService;
             _redisCache = redisCache;
             _sharedDataAccess = sharedDataAccess;
-            _bus = bus;
         }
 
         private string GenerateCacheKey(StudentFilterParameters studentFilterParameters)
@@ -100,7 +98,8 @@ namespace C.BusinessLogic.Logics
 
         public async Task<bool> UpdateStudentAsync(UpdateStudent student)
         {
-            await _bus.Publish(student);
+            _redisCache.ClearCache();
+            await _studentsService.UpdateStudentAsync(student);
             return true;
         }
 
