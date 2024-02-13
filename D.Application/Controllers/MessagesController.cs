@@ -31,11 +31,20 @@ namespace D.Application.Controllers
         [HttpGet]
         public async Task<IActionResult> GetChatList(string username)
         {
-            //if (username == null)
-            //{
-            //    username = HttpContext.Items["Username"] as string;
-            //}
+            if (username == null)
+            {
+                username = HttpContext.Items["Username"] as string;
+            }
             return Ok(await _messageLogic.GetChatList(username));
+        }
+
+
+        [Route("searchUsers")]
+        [HttpGet]
+        public async Task<IActionResult> GetSearchUsers([FromQuery] string? username)
+        {
+            int pageNumber = 1, pageSize = 10;
+            return Ok(await _messageLogic.GetSearchUsersAsync(username, pageNumber, pageSize));
         }
 
 

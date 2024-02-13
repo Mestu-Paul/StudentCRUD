@@ -7,6 +7,8 @@ namespace B.DatabaseAccess.IDataAccess
     {
         Task<List<UserDTO>> GetUsersAsync();
 
+        Task<List<UserDTO>> GetSearchUsers(string? username, int pageNumber = 1, int pageSize=20);
+
         Task<User> GetUserAsync(string username);
 
         Task CreateNewUser(string username, string password, string role);

@@ -13,9 +13,12 @@ namespace C.BusinessLogic.Logics
     public class MessageLogic : IMessageLogic
     {
         private readonly IMessageDataAccess _messageDataAccess;
-        public MessageLogic(IMessageDataAccess messageDataAccess)
+        private readonly IAccountDataAccess _accountDataAccess;
+
+        public MessageLogic(IMessageDataAccess messageDataAccess, IAccountDataAccess accountDataAccess)
         {
             _messageDataAccess = messageDataAccess;
+            _accountDataAccess = accountDataAccess;
         }
 
 
@@ -35,6 +38,11 @@ namespace C.BusinessLogic.Logics
         public async Task<ChatList> GetChatList(string username)
         {
             return await _messageDataAccess.GetChatList(username);
+        }
+
+        public async Task<List<UserDTO>> GetSearchUsersAsync(string? username, int pageNumber = 1, int pageSize = 20)
+        {
+            return await _accountDataAccess.GetSearchUsers(username, pageNumber, pageSize);
         }
     }
 }
