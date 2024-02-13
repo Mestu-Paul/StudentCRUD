@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using D.Application.Middleware;
 using MassTransit;
+using D.Application.WebSocket;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,8 @@ builder.Services.AddSingleton<ISharedDataAccess, SharedDataAccess>();
 builder.Services.AddSingleton<IMessageDataAccess,MessageDataAccess>();
 builder.Services.AddSingleton<IMessageLogic,MessageLogic>();
 builder.Services.AddSingleton<ICache, Cache>();
+
+builder.Services.AddSingleton<WebSocketHandler>();
 
 builder.Services.AddScoped<StudentUpdateConsumer>();
 
@@ -89,12 +92,53 @@ app.UseAuthorization();
 
 app.UseMiddleware<JwtMiddleware>();
 
-app.UseWebSockets();
 
 // permit the host http://localhost:4200
 app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
+
 app.MapControllers();
+
+app.UseWebSockets();
+app.Map("/ws", builder =>
+{
+    builder.UseMiddleware<WebSocketMiddleware>();
+});
+
+//app.Map("/ws", async context =>
+//{
+//    if (context.WebSockets.IsWebSocketRequest)
+//    {
+//        using var ws = await context.WebSockets.AcceptWebSocketAsync();
+//        while (true)
+//        {
+//            try
+//            {
+//                var message = "hello world";
+//                var serializedMessage = JsonConvert.SerializeObject(message);
+//                var bytes = Encoding.UTF8.GetBytes(serializedMessage);
+//                var arraySegment = new ArraySegment<byte>(bytes, 0, bytes.Length);
+//                if (ws.State == WebSocketState.Open)
+//                    await ws.SendAsync(arraySegment,
+//                        WebSocketMessageType.Text,
+//                        true,
+//                        CancellationToken.None);
+//                else if (ws.State == WebSocketState.Closed || ws.State == WebSocketState.Aborted)
+//                {
+//                    break;
+//                }
+//            }
+//            catch (Exception e)
+//            {
+//                Console.WriteLine(e);
+//                throw;
+//            }
+
+//            Thread.Sleep(1000);
+
+//        }
+//    }
+//});
 
 app.Run();
 

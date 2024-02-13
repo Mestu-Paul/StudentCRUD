@@ -1,5 +1,6 @@
 ﻿using A.Contracts.DataTransferObjects;
 using C.BusinessLogic.ILoigcs;
+using D.Application.WebSocket;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +13,12 @@ namespace D.Application.Controllers
     public class MessagesController : ControllerBase
     {
         private readonly IMessageLogic _messageLogic;
-        public MessagesController(IMessageLogic messageLogic)
+        private readonly WebSocketHandler _webSocketHandler;
+
+        public MessagesController(IMessageLogic messageLogic, WebSocketHandler webSocketHandler)
         {
             _messageLogic = messageLogic;
+            _webSocketHandler = webSocketHandler;
         }
 
         [HttpGet]
@@ -41,6 +45,7 @@ namespace D.Application.Controllers
             try
             {
                 await _messageLogic.SendMessage(messageDto);
+                await _webSocketHandler.SendMessageToUser(messageDto);
                 return Ok();
             }
             catch (Exception e)

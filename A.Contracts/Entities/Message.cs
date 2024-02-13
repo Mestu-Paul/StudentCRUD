@@ -6,6 +6,7 @@ namespace A.Contracts.Entities
 {
     public class Message
     {
+        public Message() { }
         public Message(MessageDTO messageDto)
         {
             this.Content = messageDto.Content;
