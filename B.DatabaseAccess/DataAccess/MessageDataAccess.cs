@@ -21,6 +21,22 @@ namespace B.DatabaseAccess.DataAccess
             _chatListCollection = database.GetCollection<ChatList>("chatList");
         }
 
+        private async Task UpdateReadDate(string senderUsername, string receiverUsername)
+        {
+            var filterBuilder = Builders<Message>.Filter;
+            var filter = filterBuilder.And(
+                    filterBuilder.Eq(m => m.SenderUsername,receiverUsername),
+                    filterBuilder.Eq(m => m.RecipientUsername, senderUsername),
+                    filterBuilder.Eq(m => m.DateRead , null)
+
+            );
+            
+            var update = Builders<Message>.Update
+                .Set(m => m.DateRead, DateTime.Now);
+
+            await _messageCollection.UpdateManyAsync(filter, update);
+        }
+
         public async Task<List<MessageDTO>> GetMessageListAsync(string senderUsername, string receiverUsername, int pagenumber)
         {
             int pagesize = 20;
@@ -29,30 +45,35 @@ namespace B.DatabaseAccess.DataAccess
             var filter = filterBuilder.And(
                 filterBuilder.Or(
                     filterBuilder.Eq(m => m.SenderUsername, senderUsername),
-                    filterBuilder.Eq(m => m.Recipientname, senderUsername)
+                    filterBuilder.Eq(m => m.RecipientUsername, senderUsername)
                 ),
                 filterBuilder.Or(
                     filterBuilder.Eq(m => m.SenderUsername, receiverUsername),
-                    filterBuilder.Eq(m => m.Recipientname, receiverUsername)
+                    filterBuilder.Eq(m => m.RecipientUsername, receiverUsername)
                 )
             );
 
             // Retrieve messages from the collection
             var messages = await _messageCollection.Find(filter)
+                .SortByDescending(u => u.MessageSent)
                 .Skip(skipCount)
                 .Limit(pagesize)
                 .ToListAsync();
+            
+            messages.Reverse();
 
             // Convert messages to DTOs and return
             var messageDTOs = messages.Select(message => new MessageDTO
             {
                 Id = message.Id,
                 SenderUsername = message.SenderUsername,
-                Recipientname = message.Recipientname,
+                RecipientUsername = message.RecipientUsername,
                 Content =  message.Content,
+                DateRead = message.DateRead,
                 MessageSent = message.MessageSent
             }).ToList();
 
+            UpdateReadDate(senderUsername, receiverUsername);
             return messageDTOs;
         }
 
@@ -66,7 +87,7 @@ namespace B.DatabaseAccess.DataAccess
         public async Task<ChatList> GetChatList(string username)
         {
             var filter = Builders<ChatList>.Filter.Eq(u => u.username, username);
-            var sortDefinition = Builders<ChatList>.Sort.Ascending("recipient.timestamp");
+            var sortDefinition = Builders<ChatList>.Sort.Descending("recipient.timestamp");
 
             var chatList = await _chatListCollection.Find(filter)
                 .Sort(sortDefinition)
@@ -105,6 +126,16 @@ namespace B.DatabaseAccess.DataAccess
             }
         }
 
+        public async Task<long> GetUnreadMessageCountAsync(string username)
+        {
+            var filterBuilder = Builders<Message>.Filter;
+            var filter = filterBuilder.And(
+                filterBuilder.Eq(m => m.RecipientUsername, username),
+                filterBuilder.Eq(m => m.DateRead, null)
+            );
+
+            return await _messageCollection.CountDocumentsAsync(filter);
+        }
     }
 }
 

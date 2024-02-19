@@ -11,5 +11,7 @@ namespace B.DatabaseAccess.IDataAccess
         Task<ChatList> GetChatList(string username);
 
         Task AddOrUpdateChatList(string sender, string receipient);
+
+        Task<long> GetUnreadMessageCountAsync(string username);
     }
 }

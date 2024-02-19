@@ -56,7 +56,7 @@ namespace C.BusinessLogic.Logics
             return await _sharedDataAccess.DeleteUserAsync(username);
         }
 
-        public async Task<String> Login(string username, string password)
+        public async Task<AuthToken> Login(string username, string password)
         {
             User user = await _accountDataAccess.Login(username, password);
             if (user == null)
@@ -70,8 +70,16 @@ namespace C.BusinessLogic.Logics
                 if (passwordHash[i] != user.PasswordHash[i])
                     throw new Exception("Invalid password");
             }
+            AuthToken authToken = new AuthToken();
+            authToken.AccessToken = _tokenService.CreateToken(user);
 
-            return _tokenService.CreateToken(user);
+
+            return authToken;
+        }
+
+        public async Task<UserRecords> GetUserRecordsAsync()
+        {
+            return await _sharedDataAccess.GetUserRecords();
         }
     }
 }

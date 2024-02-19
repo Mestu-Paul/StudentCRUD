@@ -10,6 +10,7 @@ namespace B.DatabaseAccess.IDataAccess
         Task CreateNewStudentAsync(Student student);
 
         Task<List<Student>> GetAllStudentsAsync();
+        Task<long> GetStundentsCount();
 
         Task<Student> GetStudentAsync(string username);
 

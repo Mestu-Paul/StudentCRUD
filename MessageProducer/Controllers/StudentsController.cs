@@ -1,6 +1,5 @@
 ﻿using A.Contracts.Models;
 using MassTransit;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MessageProducer.Controllers

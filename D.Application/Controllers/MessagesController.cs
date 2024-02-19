@@ -1,4 +1,5 @@
-﻿using A.Contracts.DataTransferObjects;
+﻿using System.Net.WebSockets;
+using A.Contracts.DataTransferObjects;
 using C.BusinessLogic.ILoigcs;
 using D.Application.WebSocket;
 using Microsoft.AspNetCore.Authorization;
@@ -24,6 +25,10 @@ namespace D.Application.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMessage(string senderUsername, string receiverUsername, int pagenumber)
         {
+            if (senderUsername == receiverUsername) return BadRequest("Sender and recipient name can not be same");
+            string username = HttpContext.Items["Username"] as string;
+            if (!(username==senderUsername || username==receiverUsername)) return BadRequest("Invalid request");
+
             return Ok(await _messageLogic.GetMessageListAsync(senderUsername, receiverUsername, pagenumber));
         }
 
@@ -51,11 +56,21 @@ namespace D.Application.Controllers
         [HttpPost]
         public async Task<IActionResult> SendMessage(MessageDTO messageDto)
         {
+            if (string.IsNullOrEmpty(messageDto.RecipientUsername) || string.IsNullOrEmpty(messageDto.SenderUsername) ||
+                string.IsNullOrEmpty(messageDto.Content))
+            {
+                return BadRequest("Invalid information");
+            }
             try
             {
                 await _messageLogic.SendMessage(messageDto);
                 await _webSocketHandler.SendMessageToUser(messageDto);
-                return Ok();
+                return Created();
+            }
+            catch (WebSocketException e)
+            {
+                await _webSocketHandler.RemoveConnection(messageDto.RecipientUsername);
+                return Created();
             }
             catch (Exception e)
             {
@@ -63,5 +78,16 @@ namespace D.Application.Controllers
             }
             
         }
+
+        [HttpGet("newMessage")]
+        public async Task<IActionResult> GetUnreadMessageCountAsync(string? username)
+        {
+            if (username == null)
+            {
+                username = HttpContext.Items["Username"] as string;
+            }
+            return Ok(await _messageLogic.GetUnreadMessageCountAsync(username));
+        }
+
     }
 }

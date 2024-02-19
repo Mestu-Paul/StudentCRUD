@@ -20,7 +20,7 @@ builder.Services.Configure<MongoDBSetting>(builder.Configuration.GetSection("Mon
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddSingleton<ITokenService, TokenService>();
-builder.Services.AddScoped<IStudentLogic, StudentLogic>();
+builder.Services.AddSingleton<IStudentLogic, StudentLogic>();
 builder.Services.AddSingleton<IStudentDataAccess, StudentDataAccess>();
 builder.Services.AddSingleton<ITeacherDataAccess, TeacherDataAccess>();
 builder.Services.AddSingleton<ITeacherLogic, TeacherLogic>();
@@ -33,7 +33,7 @@ builder.Services.AddSingleton<ICache, Cache>();
 
 builder.Services.AddSingleton<WebSocketHandler>();
 
-builder.Services.AddScoped<StudentUpdateConsumer>();
+builder.Services.AddSingleton<StudentUpdateConsumer>();
 
 builder.Services.AddCors();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -47,6 +47,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("admin", policy => policy.RequireRole("admin"));
@@ -104,41 +105,6 @@ app.Map("/ws", builder =>
 {
     builder.UseMiddleware<WebSocketMiddleware>();
 });
-
-//app.Map("/ws", async context =>
-//{
-//    if (context.WebSockets.IsWebSocketRequest)
-//    {
-//        using var ws = await context.WebSockets.AcceptWebSocketAsync();
-//        while (true)
-//        {
-//            try
-//            {
-//                var message = "hello world";
-//                var serializedMessage = JsonConvert.SerializeObject(message);
-//                var bytes = Encoding.UTF8.GetBytes(serializedMessage);
-//                var arraySegment = new ArraySegment<byte>(bytes, 0, bytes.Length);
-//                if (ws.State == WebSocketState.Open)
-//                    await ws.SendAsync(arraySegment,
-//                        WebSocketMessageType.Text,
-//                        true,
-//                        CancellationToken.None);
-//                else if (ws.State == WebSocketState.Closed || ws.State == WebSocketState.Aborted)
-//                {
-//                    break;
-//                }
-//            }
-//            catch (Exception e)
-//            {
-//                Console.WriteLine(e);
-//                throw;
-//            }
-
-//            Thread.Sleep(1000);
-
-//        }
-//    }
-//});
 
 app.Run();
 

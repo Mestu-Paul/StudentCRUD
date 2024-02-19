@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using A.Contracts.Models;
 
 namespace B.DatabaseAccess.IDataAccess
 {
@@ -10,5 +11,6 @@ namespace B.DatabaseAccess.IDataAccess
     {
         public Task<bool> DeleteUserAsync(string username);
         public Task CreateNewUser(string username, string role);
+        public Task<UserRecords> GetUserRecords();
     }
 }

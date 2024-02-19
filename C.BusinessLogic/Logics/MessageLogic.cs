@@ -30,8 +30,8 @@ namespace C.BusinessLogic.Logics
         public async Task SendMessage(MessageDTO messageDTO)
         {
             await _messageDataAccess.SendMessage(messageDTO);
-            await _messageDataAccess.AddOrUpdateChatList(messageDTO.SenderUsername, messageDTO.Recipientname);
-            await _messageDataAccess.AddOrUpdateChatList(messageDTO.Recipientname, messageDTO.SenderUsername);
+            await _messageDataAccess.AddOrUpdateChatList(messageDTO.SenderUsername, messageDTO.RecipientUsername);
+            await _messageDataAccess.AddOrUpdateChatList(messageDTO.RecipientUsername, messageDTO.SenderUsername);
             return;
         }
 
@@ -43,6 +43,11 @@ namespace C.BusinessLogic.Logics
         public async Task<List<UserDTO>> GetSearchUsersAsync(string? username, int pageNumber = 1, int pageSize = 20)
         {
             return await _accountDataAccess.GetSearchUsers(username, pageNumber, pageSize);
+        }
+
+        public async Task<long> GetUnreadMessageCountAsync(string username)
+        {
+            return await _messageDataAccess.GetUnreadMessageCountAsync(username);
         }
     }
 }

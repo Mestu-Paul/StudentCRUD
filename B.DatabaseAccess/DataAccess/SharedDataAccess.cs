@@ -1,4 +1,5 @@
 ﻿using A.Contracts.Entities;
+using A.Contracts.Models;
 using B.DatabaseAccess.IDataAccess;
 
 namespace B.DatabaseAccess.DataAccess
@@ -50,6 +51,15 @@ namespace B.DatabaseAccess.DataAccess
                 student.Username = username;
                 await _student.CreateNewStudentAsync(student);
             }
+        }
+
+        public async Task<UserRecords> GetUserRecords()
+        {
+            UserRecords records = new UserRecords();
+            records.Users = await _account.GetUsersCount();
+            records.Students = await _student.GetStundentsCount();
+            records.Teachers = await _teacher.GetTeachersCount();
+            return records;
         }
     }
 }
