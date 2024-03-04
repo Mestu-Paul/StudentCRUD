@@ -15,8 +15,6 @@ namespace D.Application.Middleware
         {
             var user = context.User;
 
-            var token = context.GetTokenAsync("access_token").Result;
-
             var usernameClaim = user.Claims.FirstOrDefault(c => c.Type == "name");
             if (usernameClaim != null)
             {

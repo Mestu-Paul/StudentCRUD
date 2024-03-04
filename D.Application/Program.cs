@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using D.Application.Middleware;
 using MassTransit;
+using D.Application.WebSocket;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,7 @@ builder.Services.Configure<MongoDBSetting>(builder.Configuration.GetSection("Mon
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddSingleton<ITokenService, TokenService>();
-builder.Services.AddScoped<IStudentLogic, StudentLogic>();
+builder.Services.AddSingleton<IStudentLogic, StudentLogic>();
 builder.Services.AddSingleton<IStudentDataAccess, StudentDataAccess>();
 builder.Services.AddSingleton<ITeacherDataAccess, TeacherDataAccess>();
 builder.Services.AddSingleton<ITeacherLogic, TeacherLogic>();
@@ -30,7 +31,9 @@ builder.Services.AddSingleton<IMessageDataAccess,MessageDataAccess>();
 builder.Services.AddSingleton<IMessageLogic,MessageLogic>();
 builder.Services.AddSingleton<ICache, Cache>();
 
-builder.Services.AddScoped<StudentUpdateConsumer>();
+builder.Services.AddSingleton<WebSocketHandler>();
+
+builder.Services.AddSingleton<StudentUpdateConsumer>();
 
 builder.Services.AddCors();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -44,6 +47,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("admin", policy => policy.RequireRole("admin"));
@@ -55,12 +59,15 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddMassTransit(config =>
 {
     config.AddConsumer<StudentUpdateConsumer>();
+    // config.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(includeNamespace: false));
     config.UsingRabbitMq((ctx, cfg) =>
     {
         cfg.Host(builder.Configuration["EventBusSettings:RabbitMQ"]);
+        
+        cfg.ConfigureEndpoints(ctx);
         cfg.ReceiveEndpoint("UpdateStudent-queue", c =>
         {
-            c.ConfigureConsumer< StudentUpdateConsumer>(ctx);
+            c.ConfigureConsumer<StudentUpdateConsumer>(ctx);
         });
     });
 });
@@ -89,12 +96,18 @@ app.UseAuthorization();
 
 app.UseMiddleware<JwtMiddleware>();
 
-app.UseWebSockets();
 
 // permit the host http://localhost:4200
 app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
+
 app.MapControllers();
+
+app.UseWebSockets();
+app.Map("/ws", builder =>
+{
+    builder.UseMiddleware<WebSocketMiddleware>();
+});
 
 app.Run();
 

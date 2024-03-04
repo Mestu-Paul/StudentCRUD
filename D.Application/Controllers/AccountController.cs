@@ -82,6 +82,16 @@ namespace D.Application.Controllers
         [HttpDelete("delete/{username}")]
         public async Task<IActionResult> DeleteUser(string username)
         {
+            string currentUsername = HttpContext.Items["Username"] as string;
+            if (string.IsNullOrEmpty(username))
+            {
+                return BadRequest("Invalid username");
+            }
+            if (currentUsername == username)
+            {
+                return BadRequest("You can not delete yourself");
+            }
+
             try
             {
                 await _accountLogic.DeleteUser(username);
@@ -91,6 +101,12 @@ namespace D.Application.Controllers
             {
                 return BadRequest(e.Message);
             }
+        }
+
+        [HttpGet("userRecords")]
+        public async Task<IActionResult> GetUserRecords()
+        {
+            return Ok(await _accountLogic.GetUserRecordsAsync());
         }
 
     }

@@ -37,6 +37,23 @@ namespace B.DatabaseAccess.DataAccess
             return result;
         }
 
+        public async Task<List<UserDTO>> GetSearchUsers(string? username, int pageNumber = 1, int pageSize=20)
+        {
+            var filter = Builders<User>.Filter.Empty;
+
+            if(!string.IsNullOrEmpty(username))
+                filter = Builders<User>.Filter.Regex(u => u.UserName, new BsonRegularExpression(username));
+
+            var skipNumber = (pageNumber - 1) * pageSize;
+            var users = await _userCollection.Find(filter)
+                .Skip(skipNumber)
+                .Limit(pageSize)
+                .ToListAsync();
+
+            List<UserDTO> result = users.Select(user => new UserDTO(user.UserName, user.Role)).ToList();
+            return result;
+        }
+
         public async Task<User> GetUserAsync(string username)
         {
             return await _userCollection.Find(x => x.UserName == username).FirstOrDefaultAsync();

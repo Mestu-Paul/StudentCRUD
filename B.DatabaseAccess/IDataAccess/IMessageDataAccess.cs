@@ -1,5 +1,6 @@
 ﻿using A.Contracts.DataTransferObjects;
 using A.Contracts.Entities;
+using A.Contracts.Models;
 
 namespace B.DatabaseAccess.IDataAccess
 {
@@ -11,5 +12,7 @@ namespace B.DatabaseAccess.IDataAccess
         Task<ChatList> GetChatList(string username);
 
         Task AddOrUpdateChatList(string sender, string receipient);
+
+        Task<List<SenderUser>> GetUnreadMessageCountAsync(string username);
     }
 }

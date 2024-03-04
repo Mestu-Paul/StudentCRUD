@@ -9,6 +9,7 @@ namespace B.DatabaseAccess.IDataAccess
         Task CreateNewTeacherAsync(Teacher teacher);
 
         Task<List<Teacher>> GetAllTeachersAsync();
+        Task<long> GetTeachersCount();
 
         Task<Teacher> GetTeacherAsync(string username);
 

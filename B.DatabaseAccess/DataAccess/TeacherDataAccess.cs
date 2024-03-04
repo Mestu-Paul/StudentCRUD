@@ -64,6 +64,11 @@ namespace B.DatabaseAccess.DataAccess
             return await _teachersCollection.Find(new BsonDocument()).ToListAsync();
         }
 
+        public async Task<long> GetTeachersCount()
+        {
+            return await _teachersCollection.EstimatedDocumentCountAsync();
+        }
+
         public async Task<Teacher> GetTeacherAsync(string username)
         {
             return await _teachersCollection.Find(x => x.Username == username).FirstOrDefaultAsync();

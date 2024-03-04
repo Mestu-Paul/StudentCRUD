@@ -1,5 +1,6 @@
 ﻿using A.Contracts.DataTransferObjects;
 using A.Contracts.Entities;
+using A.Contracts.Models;
 
 namespace C.BusinessLogic.ILoigcs
 {
@@ -8,5 +9,8 @@ namespace C.BusinessLogic.ILoigcs
         Task<List<MessageDTO>> GetMessageListAsync(string senderUsername, string receiverUsername, int pagenumber);
         Task SendMessage(MessageDTO messageDTO);
         Task<ChatList> GetChatList(string username);
+
+        Task<List<UserDTO>> GetSearchUsersAsync(string? username, int pageNumber = 1, int pageSize = 20);
+        Task<List<SenderUser>> GetUnreadMessageCountAsync(string username);
     }
 }

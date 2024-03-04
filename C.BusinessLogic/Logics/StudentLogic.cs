@@ -43,16 +43,16 @@ namespace C.BusinessLogic.Logics
         
         public async Task<List<Student>> GetAllStudentsAsync()
         {
-            var cacheData = await _redisCache.GetData<List<Student>>("allStudents");
-            if (cacheData != null && cacheData.Count() > 0)
-            {
-                return cacheData;
-            }
+            //var cacheData = await _redisCache.GetData<List<Student>>("allStudents");
+            //if (cacheData != null && cacheData.Count() > 0)
+            //{
+            //    return cacheData;
+            //}
 
             var students = await _studentsService.GetAllStudentsAsync();
 
-            var expiryTime = DateTimeOffset.Now.AddSeconds(30);
-            _redisCache.SetData("allStudents", students, expiryTime);
+            //var expiryTime = DateTimeOffset.Now.AddSeconds(30);
+            //_redisCache.SetData("allStudents", students, expiryTime);
             return students;
         }
 
