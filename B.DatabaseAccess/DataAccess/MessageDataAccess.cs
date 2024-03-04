@@ -1,8 +1,10 @@
 ﻿using A.Contracts.DataTransferObjects;
 using A.Contracts.DBSettings;
 using A.Contracts.Entities;
+using A.Contracts.Models;
 using B.DatabaseAccess.IDataAccess;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace B.DatabaseAccess.DataAccess
@@ -126,7 +128,7 @@ namespace B.DatabaseAccess.DataAccess
             }
         }
 
-        public async Task<long> GetUnreadMessageCountAsync(string username)
+        public async Task<List<SenderUser>> GetUnreadMessageCountAsync(string username)
         {
             var filterBuilder = Builders<Message>.Filter;
             var filter = filterBuilder.And(
@@ -134,7 +136,31 @@ namespace B.DatabaseAccess.DataAccess
                 filterBuilder.Eq(m => m.DateRead, null)
             );
 
-            return await _messageCollection.CountDocumentsAsync(filter);
+            var matchStage = new BsonDocument("$match", new BsonDocument
+            {
+                { "DateRead", BsonNull.Value },
+                { "RecipientUsername", username }
+            });
+
+            var groupBySenderStage = new BsonDocument("$group", new BsonDocument
+            {
+                { "_id", "$SenderUsername" },
+                { "unreadCount", new BsonDocument("$sum", 1) }
+            });
+            
+
+
+            var pipeline = PipelineDefinition<Message, BsonDocument>.Create(new[] { matchStage, groupBySenderStage });
+
+            var result = await _messageCollection.Aggregate<BsonDocument>(pipeline).ToListAsync();
+
+            var senderUsers = result.Select(u => new SenderUser
+            {
+                Username = u["_id"].AsString,
+                UnreadMessageCount = u["unreadCount"].AsInt32
+            }).ToList();
+
+            return senderUsers;
         }
     }
 }

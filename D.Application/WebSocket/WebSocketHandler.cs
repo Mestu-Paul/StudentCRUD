@@ -128,8 +128,8 @@ namespace D.Application.WebSocket
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 };
 
-
-                string messageString = JsonConvert.SerializeObject(message, settings);
+                var wsMessage = new { type="newMessage", content=message };
+                string messageString = JsonConvert.SerializeObject(wsMessage, settings);
                 var bytes = Encoding.UTF8.GetBytes(messageString);
                 var arraySegment = new ArraySegment<byte>(bytes);
                 await userWs.SendAsync(arraySegment, WebSocketMessageType.Text, true, CancellationToken.None);

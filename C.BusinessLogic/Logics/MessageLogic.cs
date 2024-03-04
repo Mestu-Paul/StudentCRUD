@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using A.Contracts.DataTransferObjects;
 using A.Contracts.Entities;
+using A.Contracts.Models;
 using B.DatabaseAccess.IDataAccess;
 using C.BusinessLogic.ILoigcs;
 
@@ -45,7 +46,7 @@ namespace C.BusinessLogic.Logics
             return await _accountDataAccess.GetSearchUsers(username, pageNumber, pageSize);
         }
 
-        public async Task<long> GetUnreadMessageCountAsync(string username)
+        public async Task<List<SenderUser>> GetUnreadMessageCountAsync(string username)
         {
             return await _messageDataAccess.GetUnreadMessageCountAsync(username);
         }

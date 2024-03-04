@@ -1,4 +1,4 @@
-﻿namespace MessageProducer.Models
+﻿namespace A.Contracts.Models
 {
     public class UpdateStudent
     {

@@ -6,13 +6,7 @@
 
     public class SenderUser
     {
-        public string username { get; set; }
-        public long UnreadMessageCount { get; set; }
-    }
-
-    public class UnreadMessage
-    {
-        public HashSet<List<SenderUser>> Users { get; set; }
+        public string Username { get; set; }
         public long UnreadMessageCount { get; set; }
     }
 }

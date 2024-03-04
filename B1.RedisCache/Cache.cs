@@ -69,7 +69,7 @@ namespace B1.RedisCache
 
         public async Task ClearCache()
         {
-            await _cacheDb.ExecuteAsync("FLUSHDB");
+           // await _cacheDb.ExecuteAsync("FLUSHDB");
         }
 
     }

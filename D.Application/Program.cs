@@ -59,12 +59,15 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddMassTransit(config =>
 {
     config.AddConsumer<StudentUpdateConsumer>();
+    // config.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(includeNamespace: false));
     config.UsingRabbitMq((ctx, cfg) =>
     {
         cfg.Host(builder.Configuration["EventBusSettings:RabbitMQ"]);
+        
+        cfg.ConfigureEndpoints(ctx);
         cfg.ReceiveEndpoint("UpdateStudent-queue", c =>
         {
-            c.ConfigureConsumer< StudentUpdateConsumer>(ctx);
+            c.ConfigureConsumer<StudentUpdateConsumer>(ctx);
         });
     });
 });
